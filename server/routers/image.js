@@ -7,7 +7,8 @@ imageRouter
   .get(ImageController.getHeroImages)
   .post(uploadImages, ImageController.createHeroImages);
 
-ImageRouter.route('/:imageId')
+imageRouter
+  .route('/:imageId')
   .get(ImageController.getImage)
   .delete(ImageController.deleteImage);
 
