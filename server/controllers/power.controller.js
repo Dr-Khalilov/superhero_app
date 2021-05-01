@@ -1,5 +1,5 @@
-const { Superpower } = require('../db/models');
 const createHttpError = require('http-errors');
+const { Superpower } = require('../db/models');
 
 module.exports.createHeroPowers = async (req, res, next) => {
   try {

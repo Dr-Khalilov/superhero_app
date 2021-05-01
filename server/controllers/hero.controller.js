@@ -6,7 +6,7 @@ module.exports.createHero = async (req, res, next) => {
     const { body, files } = req;
     const hero = await Superhero.create(body);
     if (!hero) {
-      return next(createHttpError(400, 'Superhero cannot be create'));
+      return next(createHttpError(400, 'Superhero cannot be created'));
     }
     if (files?.length) {
       const images = files.map(file => ({
@@ -34,7 +34,7 @@ module.exports.createHero = async (req, res, next) => {
         {
           model: Superpower,
           attributes: ['id', 'description'],
-          as: superpowers,
+          as: 'superpowers',
         },
         {
           model: Image,

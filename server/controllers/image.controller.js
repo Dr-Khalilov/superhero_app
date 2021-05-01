@@ -1,5 +1,5 @@
-const { Image } = require('../db/models');
 const createHttpError = require('http-errors');
+const { Image } = require('../db/models');
 
 module.exports.createHeroImages = async (req, res, next) => {
   try {
