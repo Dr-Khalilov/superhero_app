@@ -1,12 +1,12 @@
-const { Superhero, Superpower, Image } = require('../db/models');
 const createHttpError = require('http-errors');
+const { Superhero, Superpower, Image } = require('../db/models');
 
 module.exports.createHero = async (req, res, next) => {
   try {
     const { body, files } = req;
     const hero = await Superhero.create(body);
     if (!hero) {
-      return next(createHttpError(400));
+      return next(createHttpError(400, 'Superhero cannot be create'));
     }
     if (files?.length) {
       const images = files.map(file => ({
@@ -69,7 +69,7 @@ module.exports.getHeroes = async (req, res, next) => {
       ...pagination,
     });
     if (!heroes.length) {
-      return next(createHttpError(404));
+      return next(createHttpError(404, 'Superheroes not found'));
     }
     res.status(200).send({ data: heroes });
   } catch (error) {
@@ -97,7 +97,7 @@ module.exports.getHero = async (req, res, next) => {
       ],
     });
     if (!hero) {
-      return next(createHttpError(404));
+      return next(createHttpError(404, 'Superhero not found'));
     }
     res.status(200).send({ data: hero });
   } catch (error) {
@@ -135,7 +135,7 @@ module.exports.updateHero = async (req, res, next) => {
       });
     }
     if (count === 0) {
-      return next(createHttpError(404));
+      return next(createHttpError(404, 'Superhero cannot be updated'));
     }
     const heroWithData = await Superhero.findAll({
       where: {
@@ -165,10 +165,9 @@ module.exports.deleteHero = async (req, res, next) => {
     const {
       params: { id },
     } = req;
-
     const count = await Superhero.destroy({ where: { id } });
     if (count === 0) {
-      return next(createHttpError(404));
+      return next(createHttpError(404, 'Superhero not found'));
     }
     res.status(200).end();
   } catch (error) {
