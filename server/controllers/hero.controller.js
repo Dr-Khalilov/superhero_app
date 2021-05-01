@@ -48,3 +48,60 @@ module.exports.createHero = async (req, res, next) => {
     next(error);
   }
 };
+
+module.exports.getHeroes = async (req, res, next) => {
+  try {
+    const { pagination } = req;
+    const heroes = await Superhero.findAll({
+      include: [
+        {
+          model: Superpower,
+          attributes: ['id', 'description'],
+          as: 'superpowers',
+        },
+        {
+          model: Image,
+          attributes: ['id', 'path'],
+          as: 'images',
+        },
+      ],
+      order: [['updated_at', 'DESC']],
+      ...pagination,
+    });
+    if (!heroes.length) {
+      return next(createHttpError(404));
+    }
+    res.status(200).send({ data: heroes });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.getHero = async (req, res, next) => {
+  try {
+    const {
+      params: { id },
+    } = req;
+
+    const hero = await Superhero.findByPk(id, {
+      include: [
+        {
+          model: Superpower,
+          attributes: ['id', 'description'],
+          as: 'superpowers',
+        },
+        {
+          model: Image,
+          attributes: ['id', 'path'],
+          as: 'images',
+        },
+      ],
+    });
+    if (!hero) {
+      return next(createHttpError(404));
+    }
+    res.status(200).send({ data: hero });
+  } catch (error) {
+    next(error);
+  }
+};
