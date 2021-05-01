@@ -82,7 +82,6 @@ module.exports.getHero = async (req, res, next) => {
     const {
       params: { id },
     } = req;
-
     const hero = await Superhero.findByPk(id, {
       include: [
         {
@@ -101,6 +100,77 @@ module.exports.getHero = async (req, res, next) => {
       return next(createHttpError(404));
     }
     res.status(200).send({ data: hero });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.updateHero = async (req, res, next) => {
+  try {
+    const {
+      params: { id },
+      body: { files },
+      body,
+    } = req;
+    const [count, [updatedHero]] = await Superhero.update(body, {
+      where: { id },
+      returning: true,
+    });
+    if (files?.length) {
+      const images = files.map(file => ({
+        path: file.filename,
+        heroId: updatedHero.id,
+      }));
+      await Image.bulkCreate(images, {
+        returning: true,
+      });
+    }
+    if (body.superpowers) {
+      const powers = body.superpowers.map(power => ({
+        description: power,
+        heroId: updatedHero.id,
+      }));
+      await Superpower.bulkCreate(powers, {
+        returning: true,
+      });
+    }
+    if (count === 0) {
+      return next(createHttpError(404));
+    }
+    const heroWithData = await Superhero.findAll({
+      where: {
+        id: updatedHero.id,
+      },
+      include: [
+        {
+          model: Superpower,
+          attributes: ['id', 'description'],
+          as: 'superpowers',
+        },
+        {
+          model: Image,
+          attributes: ['id', 'path'],
+          as: 'images',
+        },
+      ],
+    });
+    res.status(201).send({ data: heroWithData });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.deleteHero = async (req, res, next) => {
+  try {
+    const {
+      params: { id },
+    } = req;
+
+    const count = await Superhero.destroy({ where: { id } });
+    if (count === 0) {
+      return next(createHttpError(404));
+    }
+    res.status(200).end();
   } catch (error) {
     next(error);
   }
