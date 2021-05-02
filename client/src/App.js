@@ -1,6 +1,11 @@
+import HeroList from './components/HeroList';
 
 function App () {
-  return <div></div>
+  return (
+    <div>
+      <HeroList />
+    </div>
+  );
 }
 
-export default App
+export default App;

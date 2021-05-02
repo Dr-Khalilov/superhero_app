@@ -5,7 +5,7 @@ const http = axios.create({
   baseURL: `${BASE_URL}/api`,
 });
 
-export const getHeroes = ({ heroId = 1 } = {}) =>
-  http.get(`/superheroes/${heroId}`);
+export const getHeroes = ({ userId = 1 } = {}) =>
+  http.get(`/superheroes/`);
 
 export default http;
