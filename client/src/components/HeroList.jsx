@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as ActionCreators from '../actions';
+import Hero from './Hero';
 
 const HeroList = props => {
   const { heroes, isFetching, error } = useSelector(({ hero }) => hero);
@@ -13,7 +14,7 @@ const HeroList = props => {
   return (
     <div>
       {heroes.map(hero => (
-        <div key={hero.id}>{JSON.stringify(hero)}</div>
+        <Hero {...hero} key={hero.id} />
       ))}
     </div>
   );
