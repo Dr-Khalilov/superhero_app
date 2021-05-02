@@ -15,17 +15,17 @@ export const createHeroError = ({ error }) => ({
   payload: { error },
 });
 
-export const getHeroRequest = ({ page, limit } = {}) => ({
+export const getHeroesRequest = ({ page, limit } = {}) => ({
   type: ACTION_TYPES.GET_HERO_REQUEST,
   payload: { page, limit },
 });
 
-export const getHeroSuccess = ({ heroes } = {}) => ({
+export const getHeroesSuccess = ({ heroes } = {}) => ({
   type: ACTION_TYPES.GET_HERO_SUCCESS,
   payload: { heroes },
 });
 
-export const getHeroError = ({ error }) => ({
+export const getHeroesError = ({ error }) => ({
   type: ACTION_TYPES.GET_HERO_ERROR,
   payload: { error },
 });

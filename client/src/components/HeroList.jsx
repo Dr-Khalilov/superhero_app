@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as ActionCreators from '../actions';
 
 const HeroList = props => {
-  const { heroes, isFetching, error, getHeroesAction } = props;
+  const { heroes, isFetching, error } = useSelector(({ hero }) => hero);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getHeroesAction();
-  }, [getHeroesAction]);
+    dispatch(ActionCreators.getHeroesRequest());
+  }, [dispatch]);
+
   return (
     <div>
       {heroes.map(hero => (
@@ -16,9 +19,9 @@ const HeroList = props => {
   );
 };
 
-const mapStateToProps = ({ hero }) => hero;
-const mapDispatchToProps = dispatch => ({
-  getHeroesAction: () => dispatch(ActionCreators.getHeroRequest()),
-});
+// const mapStateToProps = ({ hero }) => hero;
+// const mapDispatchToProps = dispatch => ({
+//   getHeroesAction: () => dispatch(ActionCreators.getHeroRequest()),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeroList);
+export default HeroList;

@@ -7,8 +7,8 @@ export function * getHeroesSaga (action) {
     const {
       data: { data: heroes },
     } = yield API.getHeroes();
-    yield put(ActionCreators.getHeroSuccess({ heroes }));
+    yield put(ActionCreators.getHeroesSuccess({ heroes }));
   } catch (error) {
-    yield put(ActionCreators.getHeroError({ error }));
+    yield put(ActionCreators.getHeroesError({ error }));
   }
 }
