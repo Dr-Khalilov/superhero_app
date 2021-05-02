@@ -12,3 +12,17 @@ export function * getHeroesSaga (action) {
     yield put(ActionCreators.getHeroesError({ error }));
   }
 }
+
+export function * createHeroSaga (action) {
+  try {
+    const {
+      payload: { hero },
+    } = action;
+    const {
+      data: { data: newHero },
+    } = yield API.createHero(...hero);
+    yield put(ActionCreators.createHeroSuccess({ newHero }));
+  } catch (error) {
+    yield put(ActionCreators.createHeroError({ error }));
+  }
+}

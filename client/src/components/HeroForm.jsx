@@ -1,14 +1,18 @@
 import { Formik, Form, Field } from 'formik';
 
 const HeroForm = props => {
-  const onSubmit = (values, formikBag) => {};
+  const { submitHandler } = props;
+  const onSubmit = (values, formikBag) => {
+    submitHandler(values);
+    formikBag.resetForm();
+  };
   const values = {
     nickName: '',
     realName: '',
     originDescription: '',
     catchPhrase: '',
-    superpowers: [''],
-    images: [''],
+    powers: [],
+    images: [],
   };
   return (
     <Formik initialValues={values} onSubmit={onSubmit}>
@@ -17,7 +21,7 @@ const HeroForm = props => {
         <Field name='realName' />
         <Field name='originDescription' />
         <Field name='catchPhrase' />
-        <Field name='superpowers' />
+        <Field name='powers' />
         <Field
           name='images'
           type='file'

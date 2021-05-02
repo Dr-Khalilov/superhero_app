@@ -20,9 +20,4 @@ const HeroList = props => {
   );
 };
 
-// const mapStateToProps = ({ hero }) => hero;
-// const mapDispatchToProps = dispatch => ({
-//   getHeroesAction: () => dispatch(ActionCreators.getHeroRequest()),
-// });
-
 export default HeroList;
