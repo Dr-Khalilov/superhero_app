@@ -1,0 +1,1 @@
+TO RUN THE PROJECT JUST RUN THE FILE: start-project.sh
