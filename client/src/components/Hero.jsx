@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import * as ActionCreators from '../actions';
+import styles from './styles/HeroList.module.scss';
+
 const Hero = props => {
   const {
     nickName,
@@ -16,7 +18,7 @@ const Hero = props => {
     dispatch(ActionCreators.deleteHeroRequest({ id }));
 
   return (
-    <article>
+    <article className={styles.heroListContainer}>
       <figure>
         <img src={images} alt='superhero' />
         <figcaption>{nickName}</figcaption>
@@ -26,7 +28,7 @@ const Hero = props => {
       <p>{originDescription}</p>
       <h4>{catchPhrase}</h4>
       <h3>{powers}</h3>
-      <button onClick={deleteHandler}>Delete Hero</button>
+      <button className={styles.btnStyles} onClick={deleteHandler}>Delete Hero</button>
     </article>
   );
 };

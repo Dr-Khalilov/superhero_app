@@ -1,0 +1,32 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: blueviolet;
+
+  > * {
+    width: 100%;
+    max-width: 900px;
+    padding: 15px 20px;
+    border: 1px solid;
+    border-radius: 4px;
+  }
+
+}
+
+.imgFieldStyles{
+    background-color: aqua;
+    width: 20%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.btnStyles {
+    background-color: royalblue;
+    width: 20%;
+    margin-top: 30px;
+    font-size: large;
+    cursor: pointer;
+}
+

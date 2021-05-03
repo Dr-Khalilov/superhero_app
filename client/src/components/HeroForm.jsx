@@ -1,4 +1,5 @@
 import { Formik, Form, Field } from 'formik';
+import styles from './styles/HeroForm.module.scss';
 
 const HeroForm = props => {
   const { submitHandler } = props;
@@ -16,7 +17,11 @@ const HeroForm = props => {
   };
   return (
     <Formik initialValues={values} onSubmit={onSubmit}>
-      <Form encType='multipart/form-data' method='post'>
+      <Form
+        className={styles.pageContainer}
+        encType='multipart/form-data'
+        method='post'
+      >
         <Field name='nickName' placeholder='Nickname' required />
         <Field name='realName' placeholder='Real name' required />
         <Field
@@ -27,12 +32,15 @@ const HeroForm = props => {
         <Field name='catchPhrase' placeholder='Catch Phrase' required />
         <Field name='powers' placeholder='Superpowers' />
         <Field
+          className={styles.imgFieldStyles}
           name='images'
           type='file'
           multiple
           accept='image / jpeg, image / png'
         />
-        <button type='submit'>Submit</button>
+        <button className={styles.btnStyles} type='submit'>
+          Submit
+        </button>
       </Form>
     </Formik>
   );
