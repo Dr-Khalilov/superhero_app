@@ -7,8 +7,8 @@ const http = axios.create({
 
 export const getHeroes = () => http.get(`/superheroes/`);
 
-export const createHero = (heroId, heroData) => {
-  http.post(`/superheroes`, heroData);
+export const createHero = (heroData) => {
+  http.post(`/superheroes/`, heroData);
 };
 
 export default http;

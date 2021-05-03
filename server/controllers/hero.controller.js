@@ -13,18 +13,14 @@ module.exports.createHero = async (req, res, next) => {
         path: file.filename,
         heroId: hero.id,
       }));
-      await Image.bulkCreate(images, {
-        returning: true,
-      });
+      await Image.bulkCreate(images);
     }
     if (body?.superpowers?.length) {
       const powers = body.superpowers.map(power => ({
         description: power,
         heroId: hero.id,
       }));
-      await Superpower.bulkCreate(powers, {
-        returning: true,
-      });
+      await Superpower.bulkCreate(powers);
     }
     const heroWithData = await Superhero.findAll({
       where: {

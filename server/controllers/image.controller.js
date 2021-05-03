@@ -7,8 +7,8 @@ module.exports.createHeroImages = async (req, res, next) => {
       params: { heroId },
       files,
     } = req;
-    const images = files.map(file => ({ path: file, heroId }));
-    const newImages = await Image.bulkCreate(images, { returning: true });
+    const images = files.map(file => ({ path: file.filename, heroId }));
+    const newImages = await Image.bulkCreate(images);
     if (!newImages) {
       return next(createHttpError(400, 'Image cannot upload'));
     }
@@ -29,7 +29,6 @@ module.exports.getHeroImages = async (req, res, next) => {
     if (!images) {
       return next(createHttpError(404, 'Images not found'));
     }
-
     res.status(200).send({ data: images });
   } catch (error) {
     next(error);
