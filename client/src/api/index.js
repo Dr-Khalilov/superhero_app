@@ -7,8 +7,9 @@ const http = axios.create({
 
 export const getHeroes = () => http.get(`/superheroes/`);
 
-export const createHero = (heroData) => {
-  http.post(`/superheroes/`, heroData);
-};
+export const createHero = body => http.post(`/superheroes/`, body);
+
+export const deleteHero = ({ id = 1 } = {}) =>
+  http.delete(`/superheroes/${id}`);
 
 export default http;

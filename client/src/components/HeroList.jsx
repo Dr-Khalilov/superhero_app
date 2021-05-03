@@ -13,7 +13,17 @@ const HeroList = props => {
 
   return (
     <div>
-      <span style={{ color: 'red' }}>{error && error.message}</span>
+      <span style={{ color: 'red' }}>
+        {error && (
+          <>
+            {' '}
+            {error.message}
+            <button onClick={() => dispatch(ActionCreators.clearHeroError())}>
+              X
+            </button>
+          </>
+        )}
+      </span>
       {heroes.map(hero => (
         <Hero {...hero} key={hero.id} />
       ))}

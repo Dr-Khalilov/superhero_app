@@ -29,3 +29,21 @@ export const getHeroesError = ({ error }) => ({
   type: ACTION_TYPES.GET_HERO_ERROR,
   payload: { error },
 });
+
+export const deleteHeroRequest = ({ id } = {}) => ({
+  type: ACTION_TYPES.DELETE_HERO_REQUEST,
+  payload: { id },
+});
+
+export const deleteHeroSuccess = ({ id } = {}) => ({
+  type: ACTION_TYPES.DELETE_HERO_SUCCESS,
+  payload: { id },
+});
+export const deleteHeroError = ({ error }) => ({
+  type: ACTION_TYPES.DELETE_HERO_ERROR,
+  payload: { error },
+});
+
+export const clearHeroError = () => ({
+  type: ACTION_TYPES.CLEAR_HERO_ERROR,
+});

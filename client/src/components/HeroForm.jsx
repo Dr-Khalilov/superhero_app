@@ -11,8 +11,8 @@ const HeroForm = props => {
     realName: '',
     originDescription: '',
     catchPhrase: '',
-    powers: '',
-    images: '',
+    powers: [''],
+    images: [''],
   };
   return (
     <Formik initialValues={values} onSubmit={onSubmit}>

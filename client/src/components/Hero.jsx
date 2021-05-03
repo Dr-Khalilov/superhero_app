@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { useDispatch } from 'react-redux';
+import * as ActionCreators from '../actions';
 const Hero = props => {
   const {
     nickName,
@@ -8,7 +9,12 @@ const Hero = props => {
     catchPhrase,
     powers,
     images,
+    id,
   } = props;
+  const dispatch = useDispatch();
+  const deleteHandler = () =>
+    dispatch(ActionCreators.deleteHeroRequest({ id }));
+
   return (
     <article>
       <figure>
@@ -20,6 +26,7 @@ const Hero = props => {
       <p>{originDescription}</p>
       <h4>{catchPhrase}</h4>
       <h3>{powers}</h3>
+      <button onClick={deleteHandler}>Delete Hero</button>
     </article>
   );
 };

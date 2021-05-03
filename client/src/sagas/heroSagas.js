@@ -19,10 +19,26 @@ export function * createHeroSaga (action) {
       payload: { hero },
     } = action;
     const {
-      data: { data: newHero },
-    } = yield API.createHero(...hero);
+      data: {
+        data: { newHero },
+      },
+    } = yield API.createHero(hero);
     yield put(ActionCreators.createHeroSuccess({ hero: newHero }));
   } catch (error) {
     yield put(ActionCreators.createHeroError({ error }));
+  }
+}
+
+export function * deleteHeroSaga (action) {
+  try {
+    const {
+      payload: { id },
+    } = action;
+    const {
+      data: { data },
+    } = yield API.deleteHero({ id });
+    yield put(ActionCreators.deleteHeroSuccess({ id }));
+  } catch (error) {
+    yield put(ActionCreators.deleteHeroError({ error }));
   }
 }
