@@ -8,26 +8,10 @@ const initialState = {
 };
 
 const handlers = {
-  [ACTION_TYPES.GET_HERO_REQUEST]: produce(draft => {
-    draft.isFetching = true;
-  }),
-  [ACTION_TYPES.GET_HERO_SUCCESS]: produce((draft, action) => {
-    const {
-      payload: { heroes },
-    } = action;
-    draft.heroes.push(...heroes);
-    draft.isFetching = false;
-  }),
-  [ACTION_TYPES.GET_HERO_ERROR]: produce((draft, action) => {
-    const {
-      payload: { error },
-    } = action;
-    draft.error = error;
-    draft.isFetching = false;
-  }),
   [ACTION_TYPES.CREATE_HERO_REQUEST]: produce(draft => {
     draft.isFetching = true;
   }),
+
   [ACTION_TYPES.CREATE_HERO_SUCCESS]: produce((draft, action) => {
     const {
       payload: { hero },
@@ -35,6 +19,7 @@ const handlers = {
     draft.heroes.push(hero);
     draft.isFetching = false;
   }),
+
   [ACTION_TYPES.CREATE_HERO_ERROR]: produce((draft, action) => {
     const {
       payload: { error },
@@ -42,6 +27,47 @@ const handlers = {
     draft.error = error;
     draft.isFetching = false;
   }),
+
+  [ACTION_TYPES.GET_HERO_REQUEST]: produce(draft => {
+    draft.isFetching = true;
+  }),
+
+  [ACTION_TYPES.GET_HERO_SUCCESS]: produce((draft, action) => {
+    const {
+      payload: { heroes },
+    } = action;
+    draft.heroes.push(...heroes);
+    draft.isFetching = false;
+  }),
+
+  [ACTION_TYPES.GET_HERO_ERROR]: produce((draft, action) => {
+    const {
+      payload: { error },
+    } = action;
+    draft.error = error;
+    draft.isFetching = false;
+  }),
+
+  [ACTION_TYPES.UPDATE_HERO_REQUEST]: produce(draft => {
+    draft.isFetching = true;
+  }),
+
+  [ACTION_TYPES.UPDATE_HERO_SUCCESS]: produce((draft, action) => {
+    const {
+      payload: { heroId, hero },
+    } = action;
+    draft.heroes.push(hero, heroId);
+    draft.isFetching = false;
+  }),
+
+  [ACTION_TYPES.UPDATE_HERO_ERROR]: produce((draft, action) => {
+    const {
+      payload: { error },
+    } = action;
+    draft.error = error;
+    draft.isFetching = false;
+  }),
+
   [ACTION_TYPES.DELETE_HERO_REQUEST]: produce(draft => {
     draft.isFetching = true;
   }),

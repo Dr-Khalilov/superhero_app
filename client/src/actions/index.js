@@ -1,11 +1,11 @@
 import ACTION_TYPES from './types';
 
-export const createHeroRequest = ({ hero }) => ({
+export const createHeroRequest = ({ hero } = {}) => ({
   type: ACTION_TYPES.CREATE_HERO_REQUEST,
   payload: { hero },
 });
 
-export const createHeroSuccess = ({ hero }) => ({
+export const createHeroSuccess = ({ hero } = {}) => ({
   type: ACTION_TYPES.CREATE_HERO_SUCCESS,
   payload: { hero },
 });
@@ -27,6 +27,21 @@ export const getHeroesSuccess = ({ heroes } = {}) => ({
 
 export const getHeroesError = ({ error }) => ({
   type: ACTION_TYPES.GET_HERO_ERROR,
+  payload: { error },
+});
+
+export const updateHeroRequest = ({ heroId, hero } = {}) => ({
+  type: ACTION_TYPES.UPDATE_HERO_REQUEST,
+  payload: { heroId, hero },
+});
+
+export const updateHeroSuccess = ({ heroId, hero } = {}) => ({
+  type: ACTION_TYPES.UPDATE_HERO_SUCCESS,
+  payload: { heroId, hero },
+});
+
+export const updateHeroError = ({ error }) => ({
+  type: ACTION_TYPES.UPDATE_HERO_ERROR,
   payload: { error },
 });
 

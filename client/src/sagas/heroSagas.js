@@ -42,3 +42,19 @@ export function * deleteHeroSaga (action) {
     yield put(ActionCreators.deleteHeroError({ error }));
   }
 }
+
+export function * updateHeroSaga (action) {
+  try {
+    const {
+      payload: { heroId, hero },
+    } = action;
+    const {
+      data: {
+        hero: { updatedHero },
+      },
+    } = yield API.updateHero({ heroId, hero });
+    yield put(ActionCreators.updateHeroSuccess({ hero: updatedHero }));
+  } catch (error) {
+    yield put(ActionCreators.updateHeroError({ error }));
+  }
+}
