@@ -6,10 +6,10 @@ import {
   NavLink,
 } from 'react-router-dom';
 
-const Hero = lazy(() => import('./pages/HeroPage'));
 const MainPage = lazy(() => import('./pages/MainPage'));
+const Hero = lazy(() => import('./pages/HeroPage'));
 
-function App (props) {
+function App () {
   return (
     <div>
       <Router>
