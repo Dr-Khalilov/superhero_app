@@ -13,6 +13,7 @@ const HeroList = props => {
 
   return (
     <div>
+      <span style={{ color: 'red' }}>{error && error.message}</span>
       {heroes.map(hero => (
         <Hero {...hero} key={hero.id} />
       ))}

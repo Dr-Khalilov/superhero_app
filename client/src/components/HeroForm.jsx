@@ -17,11 +17,15 @@ const HeroForm = props => {
   return (
     <Formik initialValues={values} onSubmit={onSubmit}>
       <Form encType='multipart/form-data' method='post'>
-        <Field name='nickName' />
-        <Field name='realName' />
-        <Field name='originDescription' />
-        <Field name='catchPhrase' />
-        <Field name='powers' />
+        <Field name='nickName' placeholder='Nickname' required />
+        <Field name='realName' placeholder='Real name' required />
+        <Field
+          name='originDescription'
+          placeholder='Origin description'
+          required
+        />
+        <Field name='catchPhrase' placeholder='Catch Phrase' required />
+        <Field name='powers' placeholder='Superpowers' />
         <Field
           name='images'
           type='file'

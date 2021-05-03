@@ -21,7 +21,7 @@ export function * createHeroSaga (action) {
     const {
       data: { data: newHero },
     } = yield API.createHero(...hero);
-    yield put(ActionCreators.createHeroSuccess({ newHero }));
+    yield put(ActionCreators.createHeroSuccess({ hero: newHero }));
   } catch (error) {
     yield put(ActionCreators.createHeroError({ error }));
   }

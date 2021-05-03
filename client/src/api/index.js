@@ -5,10 +5,10 @@ const http = axios.create({
   baseURL: `${BASE_URL}/api`,
 });
 
-export const getHeroes = ({ userId = 1 } = {}) => http.get(`/superheroes/`);
+export const getHeroes = () => http.get(`/superheroes/`);
 
-export const createHero = (heroData, heroId) => {
-  http.post(`/superheroes/${heroId}/powers`, heroData);
+export const createHero = (heroId, heroData) => {
+  http.post(`/superheroes`, heroData);
 };
 
 export default http;
