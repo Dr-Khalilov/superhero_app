@@ -13,10 +13,10 @@ const HeroList = props => {
 
   return (
     <div>
+      {isFetching && 'Loading....'}
       <span style={{ color: 'red' }}>
         {error && (
           <>
-            {' '}
             {error.message}
             <button onClick={() => dispatch(ActionCreators.clearHeroError())}>
               X

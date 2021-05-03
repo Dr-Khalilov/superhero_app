@@ -1,16 +1,33 @@
-import { useDispatch } from 'react-redux';
-import HeroForm from './components/HeroForm';
-import HeroList from './components/HeroList';
-import * as ActionCreators from './actions';
+import React, { Suspense, lazy } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+} from 'react-router-dom';
 
-function App () {
-  const dispatch = useDispatch();
-  const createTaskAction = hero =>
-    dispatch(ActionCreators.createHeroRequest({ hero }));
+const Hero = lazy(() => import('./pages/HeroPage'));
+const MainPage = lazy(() => import('./pages/MainPage'));
+
+function App (props) {
   return (
     <div>
-      <HeroForm submitHandler={createTaskAction} />
-      <HeroList />
+      <Router>
+        <ul>
+          <li>
+            <NavLink to='/'>Main</NavLink>
+          </li>
+          <li>
+            <NavLink to='/heroes'>Heroes</NavLink>
+          </li>
+        </ul>
+        <Suspense fallback='App loading...'>
+          <Switch>
+            <Route exact path='/' component={MainPage} />
+            <Route path='/heroes' component={Hero} />
+          </Switch>
+        </Suspense>
+      </Router>
     </div>
   );
 }
