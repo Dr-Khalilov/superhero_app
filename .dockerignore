@@ -1,0 +1,12 @@
+#IDE dependencies
+/.vscode/
+/.idea/
+
+# Dev dependencies
+/server/Dockerfile
+/docker*.yaml
+/.git/
+/.gitignore
+**/node_modules/
+/README.md
+/Makefile

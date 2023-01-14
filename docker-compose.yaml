@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  dev-server:
+    container_name: dev-server
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    ports:
+      - '4000:4000'
+      - '9229:9229'
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - super-db-postgres
+    networks:
+      - super-net
+    restart: unless-stopped
+  super-db-postgres:
+    container_name: super-db-postgres
+    image: postgres:14-alpine3.15
+    environment:
+      POSTGRES_PASSWORD: javaIs_The100BesT!
+      POSTGRES_USER: postgres
+      POSTGRES_DB: db_supers
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - super-net
+    tty: true
+    restart: always
+
+volumes:
+  pgdata:
+  dev-server:
+
+networks:
+  super-net:
+    driver: bridge

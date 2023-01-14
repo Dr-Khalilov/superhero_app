@@ -1,5 +1,11 @@
+# IDE dependencies
+/.idea/
+/.vscode/
+
+# Dev dependencies
 **/node_modules/
 **/sequelize*.json
-/.env
-/.idea
-/.vscode
+/.git
+
+#Except
+!.gitignore
