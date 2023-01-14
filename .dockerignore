@@ -8,5 +8,6 @@
 /.git/
 /.gitignore
 **/node_modules/
+**/tests/
 /README.md
 /Makefile
