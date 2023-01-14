@@ -1,22 +1,42 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "This application about superheroes",
   "private": true,
+  "main": "./src/main.js",
+  "type": "commonjs",
   "scripts": {
-    "start-dev": "nodemon ./server.js",
-    "start": "node ./server.js"
+    "start": "npm run build && node build/main.js",
+    "start:dev": "nodemon /src/main.js",
+    "lint": "eslint . --ext .js",
+    "lint-and-fix": "eslint . --ext .js --fix",
+    "prettier:format": "prettier --write \"src/**/*.js\" \"test/**/*.js\"",
+    "prettier:check": "prettier --check \"src/**/*.js\" \"test/**/*.js\""
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "node",
+    "sequelize",
+    "heroes"
+  ],
+  "author": "Umar Khalilov",
   "license": "ISC",
-  "devDependencies": {
-    "nodemon": "^2.0.7",
-    "prettier-standard": "^16.4.1"
-  },
   "dependencies": {
-    "express": "^4.17.1",
-    "pg": "^8.6.0",
-    "pg-hstore": "^2.3.3"
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "envalid": "^7.3.1",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.28.0",
+    "swagger-ui-express": "^4.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.2",
+    "sequelize-cli": "^6.5.2"
   }
 }
