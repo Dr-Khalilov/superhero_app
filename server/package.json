@@ -10,8 +10,8 @@
     "start:dev": "nodemon /src/main.js",
     "lint": "eslint . --ext .js",
     "lint-and-fix": "eslint . --ext .js --fix",
-    "prettier:format": "prettier --write \"src/**/*.js\" \"test/**/*.js\"",
-    "prettier:check": "prettier --check \"src/**/*.js\" \"test/**/*.js\""
+    "pretty:format": "prettier --write \"src/**/*.js\"",
+    "pretty:check": "prettier --check \"src/**/*.js\""
   },
   "keywords": [
     "node",

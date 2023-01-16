@@ -1,7 +1,7 @@
 'use strict';
 const { cleanEnv, port, str, num } = require('envalid');
 
-const validateEnv = () => {
+const validateEnv = async () => {
     cleanEnv(process.env, {
         NODE_ENV: str(),
         SERVER_PORT: port(),

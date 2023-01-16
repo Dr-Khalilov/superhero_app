@@ -1,17 +1,22 @@
 const { createServer } = require('http');
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
 const cors = require('cors');
-const { configuration } = require('./configs/configuration.js');
 const { PathNotFoundException } = require('./common/exceptions');
 const { ErrorHandler } = require('./common/middlewares/ErrorHandler');
+const { Logger } = require('./common/utils/Logger');
+const { configuration } = require('./configs/configuration.js');
+const { docs } = require('./app/docs');
 
 class App {
     #app;
     #port;
+    #logger;
 
     constructor(controllers = []) {
         this.#app = express();
         this.#port = configuration.serverPort;
+        this.#logger = new Logger(App.name);
         this.#initializeMiddlewares();
         this.#initializeControllers(controllers);
         this.#initializeErrorHandling();
@@ -28,10 +33,10 @@ class App {
             next();
         });
         this.#app.use(cors());
-        this.#app.use(express.json());
-        this.#app.use(express.urlencoded({ extended: true }));
+        this.#app.use(express.json({ limit: '100mb' }));
+        this.#app.use(express.urlencoded({ limit: '50mb', extended: true }));
         this.#app.use(express.static(configuration.staticPath));
-        // this.app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(docs));
+        this.#app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(docs));
     }
 
     #initializeControllers(controllers = []) {
@@ -41,23 +46,26 @@ class App {
     }
 
     #initializeErrorHandling() {
-        this.#app.use((req, res, next) =>
+        this.#app.use('*', (req, res, next) =>
             next(new PathNotFoundException(req.path)),
         );
         this.#app.use(ErrorHandler.errorHandler);
     }
 
-    listen() {
+    async listen() {
         const server = createServer(this.#app);
         server.listen(this.#port);
         server.on('listening', () => {
-            console.info(
-                `Express App started on http://localhost:${this.#port}`,
+            this.#logger.log(
+                'Express application started!',
+                `Application documentation is available at http://localhost:${
+                    this.#port
+                }/api/docs`,
             );
         });
 
         process.on('SIGTERM', () => {
-            console.info('SIGTERM received');
+            this.#logger.log('SIGTERM received');
             server.close();
         });
     }

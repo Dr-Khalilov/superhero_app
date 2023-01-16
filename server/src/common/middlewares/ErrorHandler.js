@@ -1,17 +1,20 @@
 'use strict';
 const { ApplicationException } = require('../exceptions');
+const { Logger } = require('../utils/Logger');
 const { HttpStatus } = require('../utils/httpStatus');
 
 class ErrorHandler {
+    static #logger;
+
+    constructor() {
+        this.#logger = new Logger(ErrorHandler.name);
+    }
+
     static errorHandler = async (err, req, res, next) => {
-        console.error(
-            '\x1b[31m',
-            `ERROR caught:->>>>> ${err.stack}`,
-            '\x1b[0m',
-        );
+        this.#logger.error(`ERROR caught:===> ${err.stack}`);
         if (err instanceof ApplicationException) {
             return res
-                .status(err.status)
+                .status(err.statusCode)
                 .send({ name: err.name, message: err.message });
         } else {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
@@ -24,14 +27,14 @@ class ErrorHandler {
 
     static initializeUnhandledException = () => {
         process.on('unhandledRejection', (reason, promise) => {
-            console.error({ name: reason.name, message: reason.message });
-            console.error('UNHANDLED REJECTION! 💥 Shutting down...');
+            this.#logger.error({ name: reason.name, message: reason.message });
+            this.#logger.error('UNHANDLED REJECTION! 💥 Shutting down...');
             throw reason;
         });
 
         process.on('uncaughtException', err => {
-            console.error(err.name, err.message);
-            console.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
+            this.#logger.error({ name: err.name, message: err.message });
+            this.#logger.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
             process.exit(1);
         });
     };

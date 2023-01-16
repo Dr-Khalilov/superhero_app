@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             realName: {
                 field: 'real_name',
                 allowNull: false,
+                unique: true,
                 type: DataTypes.STRING,
                 validate: {
                     notNull: true,
@@ -46,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
             catchPhrase: {
                 field: 'catch_phrase',
                 allowNull: false,
-                type: DataTypes.STRING,
+                type: DataTypes.STRING(500),
                 validate: {
                     notNull: true,
                     notEmpty: true,
