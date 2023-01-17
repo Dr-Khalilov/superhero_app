@@ -1,14 +1,11 @@
 const { HttpStatus } = require('../utils/httpStatus');
 
 class ApplicationException extends Error {
-    #message;
-    #statusCode;
-
     constructor(message, status) {
         super(message);
         this.name = this.constructor.name;
-        this.#message = message || 'Something went wrong. Please try again';
-        this.#statusCode = status || HttpStatus.INTERNAL_SERVER_ERROR;
+        this.message = message || 'Something went wrong. Please try again';
+        this.statusCode = status || HttpStatus.INTERNAL_SERVER_ERROR;
         Error.captureStackTrace(this, this.constructor);
     }
 }

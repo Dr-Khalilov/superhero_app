@@ -6,8 +6,8 @@ const { errorsComponent } = require('./errorsComponent');
 const components = {
     components: {
         schemas: {
-            ...heroesComponent,
             ...queryParamsComponent,
+            ...heroesComponent,
             ...errorsComponent,
         },
     },

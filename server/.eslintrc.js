@@ -1,12 +1,14 @@
 module.exports = {
     root: true,
+    parserOptions: {
+        ecmaVersion: '2022',
+        sourceType: 'script',
+    },
     env: {
+        es6: true,
         node: true,
         commonjs: true,
         jest: true,
-    },
-    parserOptions: {
-        ecmaVersion: '2022',
     },
     plugins: ['eslint-plugin-prettier'],
     extends: ['eslint:recommended', 'plugin:prettier/recommended'],

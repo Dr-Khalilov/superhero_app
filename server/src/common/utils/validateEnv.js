@@ -5,6 +5,7 @@ const validateEnv = async () => {
     cleanEnv(process.env, {
         NODE_ENV: str(),
         SERVER_PORT: port(),
+        DEPLOY_HOST: str(),
         DEBUG_PORT: port(),
         DB_PORT: port(),
         DB_DIALECT: str(),
@@ -12,6 +13,11 @@ const validateEnv = async () => {
         DB_PASSWORD: str(),
         DB_HOST: str(),
         DB_NAME: str(),
+        REDIS_PORT: port(),
+        REDIS_HOST: str(),
+        REDIS_USERNAME: str(),
+        REDIS_PASSWORD: str(),
+        CACHE_TTL: num(),
         MAX_FILE_SIZE: num(),
         FIELD_NAME_SIZE: num(),
     });

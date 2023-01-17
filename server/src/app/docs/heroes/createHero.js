@@ -8,19 +8,30 @@ const createHero = {
         summary: 'Create a superhero',
         description: 'Create a hero with some data',
         operationId: 'createHero',
-        body: [
-            {
-                name: 'id',
-                in: 'body',
-                schema: {
-                    $ref: '#/components/schemas/CreateHero',
+        requestBody: {
+            required: true,
+            content: {
+                'application/json': {
+                    schema: {
+                        allOf: [
+                            {
+                                $ref: '#/components/schemas/CreateHeroWithoutPowers',
+                            },
+                            {
+                                $ref: '#/components/schemas/CreateHeroWithPowers',
+                            },
+                        ],
+                    },
                 },
-                required: true,
-                description: 'Id param for get hero',
+                'multipart/form-data': {
+                    schema: {
+                        $ref: '#/components/schemas/CreateHeroWithImages',
+                    },
+                },
             },
-        ],
+        },
         responses: {
-            [HttpStatus.OK]: {
+            [HttpStatus.CREATED]: {
                 description: 'A created superhero data',
                 content: {
                     'application/json': {
@@ -30,12 +41,12 @@ const createHero = {
                     },
                 },
             },
-            [HttpStatus.NOT_FOUND]: {
-                description: 'A superhero not found exception',
+            [HttpStatus.BAD_REQUEST]: {
+                description: 'Bad request exception',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/SuperheroNotFoundException',
+                            $ref: '#/components/schemas/BadRequestException',
                         },
                     },
                 },

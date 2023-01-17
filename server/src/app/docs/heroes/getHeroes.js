@@ -10,13 +10,25 @@ const getHeroes = {
         operationId: 'getHeroes',
         parameters: [
             {
+                name: 'sort',
+                in: 'query',
+                schema: {
+                    $ref: '#/components/schemas/sort',
+                },
+                required: false,
+                description:
+                    'Sort order parameter to get heroes.' +
+                    '*`ASC` - Ascending, from A to Z.' +
+                    '*`DESC` - Descending, from Z to A.',
+            },
+            {
                 name: 'page',
                 in: 'query',
                 schema: {
                     $ref: '#/components/schemas/page',
                 },
                 required: false,
-                description: 'Page param for get heroes',
+                description: 'Page parameter to get heroes.',
             },
             {
                 name: 'limit',
@@ -25,21 +37,12 @@ const getHeroes = {
                     $ref: '#/components/schemas/limit',
                 },
                 required: false,
-                description: 'A limit param for get heroes',
-            },
-            {
-                name: 'offset',
-                in: 'query',
-                schema: {
-                    $ref: '#/components/schemas/offset',
-                },
-                required: false,
-                description: 'A offset param for get heroes',
+                description: 'A limit parameter to get heroes.',
             },
         ],
         responses: {
             [HttpStatus.OK]: {
-                description: 'A list of superheroes',
+                description: 'A list of superheroes.',
                 content: {
                     'application/json': {
                         schema: {
@@ -54,16 +57,6 @@ const getHeroes = {
                     'application/json': {
                         schema: {
                             $ref: '#/components/schemas/SuperheroesNotFoundException',
-                        },
-                    },
-                },
-            },
-            [HttpStatus.NOT_FOUND]: {
-                description: 'The Requested path not found exception',
-                content: {
-                    'application/json': {
-                        schema: {
-                            $ref: '#/components/schemas/PathNotFoundException',
                         },
                     },
                 },

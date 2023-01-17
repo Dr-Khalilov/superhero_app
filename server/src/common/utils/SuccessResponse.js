@@ -1,0 +1,3 @@
+class SuccessResponse {
+    constructor(data = {}) {}
+}

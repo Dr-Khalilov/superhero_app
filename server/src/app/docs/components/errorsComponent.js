@@ -8,7 +8,8 @@ const errorsComponent = {
             message: {
                 type: 'string',
                 description: 'Error message',
-                example: 'Bad request',
+                example:
+                    'Superhero with that nickName: Superman or with that realName: Clark Kent already exist!',
             },
             statusCode: {
                 type: 'integer',

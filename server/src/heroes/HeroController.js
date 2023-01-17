@@ -5,6 +5,7 @@ const { ImageController } = require('../images/ImageController');
 const { HttpStatus } = require('../common/utils/httpStatus');
 const { paginate } = require('../common/middlewares/paginate');
 const { uploadImages } = require('../common/middlewares/fileUpload');
+const { parseIntPipe } = require('../common/middlewares/parseIntPipe');
 
 class HeroController {
     #heroService;
@@ -26,9 +27,9 @@ class HeroController {
         this.router.get(this.#path, paginate, this.#getMany);
         this.router
             .route(`${this.#path}/:id`)
-            .get(this.#getOne)
-            .patch(uploadImages, this.#updateOne)
-            .delete(this.#deleteOne);
+            .get(parseIntPipe('id'), this.#getOne)
+            .patch(parseIntPipe('id'), uploadImages, this.#updateOne)
+            .delete(parseIntPipe('id'), this.#deleteOne);
         this.router.use('/:heroId/powers/', this.#powerController.router);
         this.router.use('/:heroId/images/', this.#imageController.router);
     }

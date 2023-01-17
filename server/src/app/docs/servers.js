@@ -4,12 +4,10 @@ const { configuration } = require('../../configs/configuration');
 const servers = {
     servers: [
         {
-            url: `http://localhost:${configuration.serverPort}/api`,
-            description: 'Local server',
-        },
-        {
-            url: '',
-            description: 'Production server',
+            url:
+                configuration.deployHost ||
+                `http://localhost:${configuration.serverPort}/api`,
+            description: 'Server',
         },
     ],
 };

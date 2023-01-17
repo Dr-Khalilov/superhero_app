@@ -11,12 +11,14 @@ const deleteHero = {
         parameters: [
             {
                 name: 'id',
-                in: 'query',
+                in: 'path',
+                example: 1,
                 schema: {
-                    $ref: '#/components/schemas/id',
+                    type: 'integer',
+                    format: 'int64',
                 },
                 required: true,
-                description: 'Id param for delete a hero',
+                description: 'Numeric Id of the user to delete',
             },
         ],
         responses: {
@@ -30,16 +32,6 @@ const deleteHero = {
                     'application/json': {
                         schema: {
                             $ref: '#/components/schemas/SuperheroNotFoundException',
-                        },
-                    },
-                },
-            },
-            [HttpStatus.NOT_FOUND]: {
-                description: 'The Requested path not found exception',
-                content: {
-                    'application/json': {
-                        schema: {
-                            $ref: '#/components/schemas/PathNotFoundException',
                         },
                     },
                 },

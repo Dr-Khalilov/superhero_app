@@ -58,7 +58,7 @@ class HeroService {
         });
     }
 
-    async getAllHeroes({ limit, offset, page }) {
+    async getAllHeroes({ limit, offset, page, order }) {
         const { count, rows } = await this.#heroRepository.findAndCountAll({
             include: [
                 {
@@ -72,7 +72,7 @@ class HeroService {
                     as: 'images',
                 },
             ],
-            order: [['updated_at', 'DESC']],
+            order: [['nickName', order]],
             limit,
             offset,
         });

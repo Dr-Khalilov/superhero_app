@@ -1,13 +1,13 @@
 'use strict';
-const { HttpStatus } = require('../../../common/utils/httpStatus');
 const { ListTags } = require('../listTags');
+const { HttpStatus } = require('../../../common/utils/httpStatus');
 
-const getHero = {
-    get: {
+const updateHero = {
+    patch: {
         tags: [ListTags.Superheroes],
-        summary: 'Get a superhero',
-        description: 'Get a superhero by id',
-        operationId: 'getHero',
+        summary: 'Update a superhero',
+        description: 'Update a hero data',
+        operationId: 'updateHero',
         parameters: [
             {
                 name: 'id',
@@ -18,12 +18,27 @@ const getHero = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Numeric Id of the user to get',
+                description: 'Numeric Id of the user to update',
             },
         ],
+        requestBody: {
+            required: false,
+            content: {
+                'application/json': {
+                    schema: {
+                        $ref: '#/components/schemas/UpdateHeroWithoutImages',
+                    },
+                },
+                'multipart/form-data': {
+                    schema: {
+                        $ref: '#/components/schemas/UpdateHeroWithImages',
+                    },
+                },
+            },
+        },
         responses: {
-            [HttpStatus.OK]: {
-                description: 'A superhero data',
+            [HttpStatus.ACCEPTED]: {
+                description: 'A updated superhero data',
                 content: {
                     'application/json': {
                         schema: {
@@ -33,7 +48,7 @@ const getHero = {
                 },
             },
             [HttpStatus.NOT_FOUND]: {
-                description: 'A superhero not found exception',
+                description: 'Not found exception',
                 content: {
                     'application/json': {
                         schema: {
@@ -46,4 +61,4 @@ const getHero = {
     },
 };
 
-module.exports = { getHero };
+module.exports = { updateHero };

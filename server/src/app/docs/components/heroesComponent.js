@@ -2,18 +2,51 @@
 const { heroComponent } = require('./heroComponent');
 const { metaComponent } = require('./metaComponent');
 
-const {
-    properties: { createdAt, updatedAt, ...restFields },
-} = heroComponent;
+const { id, createdAt, updatedAt, images, superpowers, ...restFields } =
+    heroComponent;
 
 const heroesComponent = {
+    CreateHeroWithoutPowers: {
+        type: 'object',
+        properties: {
+            ...restFields,
+        },
+    },
+    CreateHeroWithPowers: {
+        type: 'object',
+        properties: {
+            ...restFields,
+            superpowers,
+        },
+    },
+    CreateHeroWithImages: {
+        type: 'object',
+        properties: {
+            ...restFields,
+            images,
+        },
+        encoding: {
+            image: {
+                contentType: [
+                    'image/png',
+                    'image/jpg',
+                    'image/jpeg',
+                    'image/gif',
+                    'image/svg',
+                ],
+            },
+        },
+    },
     GetHeroes: {
         type: 'object',
         properties: {
             data: {
                 type: 'array',
                 items: {
-                    ...heroComponent,
+                    type: 'object',
+                    properties: {
+                        ...heroComponent,
+                    },
                 },
             },
             ...metaComponent,
@@ -24,14 +57,36 @@ const heroesComponent = {
         properties: {
             data: {
                 type: 'object',
-                ...heroComponent,
+                properties: {
+                    ...heroComponent,
+                },
             },
         },
     },
-    CreateHero: {
+    UpdateHeroWithoutImages: {
         type: 'object',
         properties: {
             ...restFields,
+            superpowers,
+        },
+    },
+    UpdateHeroWithImages: {
+        type: 'object',
+        properties: {
+            ...restFields,
+            superpowers,
+            images,
+        },
+        encoding: {
+            images: {
+                contentType: [
+                    'image/png',
+                    'image/jpg',
+                    'image/jpeg',
+                    'image/gif',
+                    'image/svg',
+                ],
+            },
         },
     },
 };

@@ -2,7 +2,7 @@ class Logger {
     #name;
     #date;
 
-    constructor(name) {
+    constructor(name = '') {
         this.#name = name;
         this.#date = new Date();
     }

@@ -1,4 +1,5 @@
 'use strict';
+const { configuration } = require('../../configs/configuration');
 
 const basicInfo = {
     openapi: '3.0.3',
@@ -13,7 +14,9 @@ const basicInfo = {
             url: '',
         },
         basePath: '/',
-        host: '/',
+        host:
+            configuration.deployHost ||
+            `http://localhost:${configuration.serverPort}/api`,
         schemes: ['http', 'https'],
     },
 };

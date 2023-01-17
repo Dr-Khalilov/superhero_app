@@ -4,7 +4,7 @@ const { App } = require('./App');
 const { HeroController } = require('./heroes/HeroController');
 const { ErrorHandler } = require('./common/middlewares/ErrorHandler');
 const { Logger } = require('./common/utils/Logger');
-const { validateEnv } = require('./common/utils/envValidate.js');
+const { validateEnv } = require('./common/utils/validateEnv.js');
 const { connectToDatabase } = require('./common/utils/helpers');
 
 const main = async () => {
