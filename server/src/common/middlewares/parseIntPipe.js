@@ -1,7 +1,12 @@
-const { BadRequestException } = require('../exceptions');
-const parseIntPipe = paramToInt => async (req, res, next) => {
-    req.params[paramToInt] = parseInt(req.params[paramToInt], 10);
-    next();
-};
+'use strict';
+
+const parseIntPipe =
+    (...paramToInt) =>
+    async (req, res, next) => {
+        paramToInt.forEach(param => {
+            req.params[param] = parseInt(req.params[param], 10);
+        });
+        next();
+    };
 
 module.exports = { parseIntPipe };

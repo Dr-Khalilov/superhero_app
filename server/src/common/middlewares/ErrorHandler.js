@@ -9,16 +9,16 @@ class ErrorHandler {
     static errorHandler = async (err, req, res, next) => {
         ErrorHandler.#logger.error(`CAUGHT:===> ${err}`);
         if (err instanceof ApplicationException) {
-            return res.status(err.statusCode).send({
+            return res.status(err.status).send({
                 name: err.name,
                 message: err.message,
-                status: err.statusCode,
+                status: err.status,
             });
         } else {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
-                success: false,
+                name: err.name,
                 message: err.message,
-                status: err.statusCode,
+                status: err.status,
             });
         }
     };

@@ -2,11 +2,11 @@
 
 Superheroes application for everyone!
 
-## Installation
+### Installation
 
 You need install Docker: 20.10.22 and Docker Compose: v2.13.0 or latest version.
 
-## Running the app
+### Running the app
 
 ```bash
 make up-dev
@@ -27,7 +27,7 @@ you need type command in terminal:
 make down-migrate
 ```
 
-## Stopping the app
+### Stopping the app
 
 For stop the project
 Type command in terminal:
@@ -36,7 +36,7 @@ Type command in terminal:
  make stop
 ```
 
-## Downing the app
+### Downing the app
 
 For downing containers and network the project
 Type command in terminal:
@@ -45,11 +45,22 @@ Type command in terminal:
  make down
 ```
 
-## Removing the app
+### Removing the app
 
 For remove all docker containers, images, networks, and volumes the project
 Type command in terminal:
 
 ```bash
  make prune
+```
+
+### Documentation
+#### Swagger documentation
+```http request
+http://localhost:4000/api/docs
+```
+
+#### Adminer
+```http request
+http://localhost:8080
 ```

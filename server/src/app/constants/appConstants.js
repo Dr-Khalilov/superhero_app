@@ -3,4 +3,8 @@ const NODE_ENV = {
     PRODUCTION: 'production',
 };
 
-module.exports = { NODE_ENV };
+const SequelizeErrors = {
+    SequelizeUniqueConstraintError: 'SequelizeUniqueConstraintError',
+};
+
+module.exports = { NODE_ENV, SequelizeErrors };

@@ -3,12 +3,16 @@ version: '3.9'
 services:
   dev-server:
     container_name: dev-server
+    environment:
+      NODE_ENV: development
     build:
       context: ./server
       dockerfile: ./Dockerfile
+      target: development
     ports:
       - '4000:4000'
       - '9229:9229'
+    command: npm run start:dev
     volumes:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules
@@ -33,6 +37,16 @@ services:
       - super-net
     tty: true
     restart: always
+  adminer:
+    image: adminer
+    container_name: adminer-docker
+    depends_on:
+      - super-db-postgres
+    ports:
+      - '8080:8080'
+    networks:
+      - super-net
+    restart: on-failure
 
 volumes:
   pgdata:

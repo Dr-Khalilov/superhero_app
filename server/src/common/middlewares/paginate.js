@@ -4,7 +4,7 @@ const { SortOrders } = require('../utils/SortOrders');
 const paginate = async (req, res, next) => {
     try {
         let {
-            query: { page = 1, limit = 10, order = SortOrders.ASC },
+            query: { page = 1, limit = 10, sort = SortOrders.ASC },
         } = req;
 
         page = Number(!page || page <= 0 ? 1 : page);
@@ -13,7 +13,7 @@ const paginate = async (req, res, next) => {
         const offset = (page - 1) * limit;
 
         req.pagination = {
-            order,
+            sort,
             page,
             limit,
             offset,

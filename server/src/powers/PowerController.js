@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const { PowerService } = require('./PowerService');
 const { HttpStatus } = require('../common/utils/httpStatus');
+const { SuccessResponse } = require('../common/utils/SuccessResponse');
+const { asyncWrapper } = require('../common/utils/helpers');
+const { parseIntPipe } = require('../common/middlewares/parseIntPipe');
 
 class PowerController {
     #powerService;
@@ -17,43 +20,35 @@ class PowerController {
     }
 
     #initializeRoutes() {
-        this.router.route('/').post(this.#createPowers).get(this.#getPowers);
+        this.router
+            .route('/')
+            .post(parseIntPipe('heroId'), this.#createPowers)
+            .get(parseIntPipe('heroId'), this.#getPowers);
         this.router.delete('/:powerId', this.#deletePower);
     }
 
-    #createPowers = async (
-        { params: { heroId }, body: { superpowers } },
-        res,
-        next,
-    ) => {
-        try {
+    #createPowers = asyncWrapper(
+        async ({ params: { heroId }, body: { superpowers } }) => {
             const createdPowers = await this.#powerService.createHeroPowers(
                 heroId,
                 superpowers,
             );
-            return res.status(HttpStatus.CREATED).send({ data: createdPowers });
-        } catch (error) {
-            next(error);
-        }
-    };
+            return new SuccessResponse(
+                { data: createdPowers },
+                HttpStatus.CREATED,
+            );
+        },
+    );
 
-    #getPowers = async ({ params: { heroId } }, res, next) => {
-        try {
-            const powers = await this.#powerService.getPowersByHeroId(heroId);
-            return res.status(HttpStatus.OK).send({ data: powers });
-        } catch (error) {
-            next(error);
-        }
-    };
+    #getPowers = asyncWrapper(async ({ params: { heroId } }) => {
+        const powers = await this.#powerService.getPowersByHeroId(heroId);
+        return new SuccessResponse({ data: powers });
+    });
 
-    #deletePower = async ({ params: { heroId, powerId } }, res, next) => {
-        try {
-            await this.#powerService.deletePowerByIds(heroId, powerId);
-            return res.status(HttpStatus.NO_CONTENT).end();
-        } catch (error) {
-            next(error);
-        }
-    };
+    #deletePower = asyncWrapper(async ({ params: { heroId, powerId } }) => {
+        await this.#powerService.deletePowerByIds(+heroId, +powerId);
+        return new SuccessResponse(null, HttpStatus.NO_CONTENT);
+    });
 }
 
 module.exports = { PowerController };

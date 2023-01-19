@@ -3,8 +3,10 @@ const { cleanEnv, port, str, num } = require('envalid');
 
 const validateEnv = async () => {
     cleanEnv(process.env, {
-        NODE_ENV: str(),
-        SERVER_PORT: port(),
+        NODE_ENV: str({
+            choices: ['development', 'production'],
+        }),
+        SERVER_PORT: port({ devDefault: 4000 }),
         DEPLOY_HOST: str(),
         DEBUG_PORT: port(),
         DB_PORT: port(),

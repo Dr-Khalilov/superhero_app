@@ -6,19 +6,12 @@ const createPublicFolder = async path => {
     await mkdir(path, { recursive: true });
 };
 
-const asyncWrapper =
-    (handler = async () => {}) =>
-    (req, res, next) => {
-        Promise.resolve(handler(req, res, next))
-            .then(response => {
-                return res.status(response.statusCode).send({
-                    data: response.data,
-                });
-            })
-            .catch(err => next(err));
-    };
+const asyncWrapper = handler => (req, res, next) =>
+    Promise.resolve(handler(req, res, next))
+        .then(response => res.status(response.status).send(response.data))
+        .catch(err => next(err));
 
-const paginateResponse = async (data = [], page = 1, limit = 10) => {
+const paginateResponse = async (data = [], page, limit) => {
     const [itemCount, result] = data;
     const pageCount = Math.ceil(itemCount / limit);
     const hasPreviousPage = page > 1;

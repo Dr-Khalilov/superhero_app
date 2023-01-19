@@ -2,7 +2,7 @@
 const { resolve } = require('path');
 const { config } = require('dotenv');
 
-config();
+config({ path: __dirname + `/../../.env.${process.env.NODE_ENV}` });
 
 const {
     env: {

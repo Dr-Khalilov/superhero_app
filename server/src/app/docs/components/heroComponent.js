@@ -33,7 +33,6 @@ const heroComponent = {
         nullable: true,
         example: [
             'solar energy absorption and healing factor',
-            'solar energy absorption and healing factor',
             'solar flare and heat vision',
             'solar invulnerability',
             'flight...',

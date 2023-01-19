@@ -47,6 +47,16 @@ const updateHero = {
                     },
                 },
             },
+            [HttpStatus.BAD_REQUEST]: {
+                description: 'Validation exception',
+                content: {
+                    'application/json': {
+                        schema: {
+                            $ref: '#/components/schemas/ValidationException',
+                        },
+                    },
+                },
+            },
             [HttpStatus.NOT_FOUND]: {
                 description: 'Not found exception',
                 content: {

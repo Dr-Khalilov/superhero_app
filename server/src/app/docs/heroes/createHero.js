@@ -42,11 +42,11 @@ const createHero = {
                 },
             },
             [HttpStatus.BAD_REQUEST]: {
-                description: 'Bad request exception',
+                description: 'Validation exception',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/BadRequestException',
+                            $ref: '#/components/schemas/ValidationException',
                         },
                     },
                 },
@@ -57,6 +57,16 @@ const createHero = {
                     'application/json': {
                         schema: {
                             $ref: '#/components/schemas/PathNotFoundException',
+                        },
+                    },
+                },
+            },
+            [HttpStatus.CONFLICT]: {
+                description: 'Conflict resource',
+                content: {
+                    'application/json': {
+                        schema: {
+                            $ref: '#/components/schemas/ConflictException',
                         },
                     },
                 },

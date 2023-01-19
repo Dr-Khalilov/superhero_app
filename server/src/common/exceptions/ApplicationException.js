@@ -5,7 +5,7 @@ class ApplicationException extends Error {
         super(message);
         this.name = this.constructor.name;
         this.message = message || 'Something went wrong. Please try again';
-        this.statusCode = status || HttpStatus.INTERNAL_SERVER_ERROR;
+        this.status = status || HttpStatus.INTERNAL_SERVER_ERROR;
         Error.captureStackTrace(this, this.constructor);
     }
 }
