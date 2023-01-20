@@ -6,7 +6,7 @@ const validateEnv = async () => {
         NODE_ENV: str({
             choices: ['development', 'production'],
         }),
-        SERVER_PORT: port({ devDefault: 4000 }),
+        SERVER_PORT: port(),
         DEPLOY_HOST: str(),
         DEBUG_PORT: port(),
         DB_PORT: port(),
@@ -21,6 +21,7 @@ const validateEnv = async () => {
         REDIS_PASSWORD: str(),
         CACHE_TTL: num(),
         MAX_FILE_SIZE: num(),
+        MAX_FILES_AMOUNT: num(),
         FIELD_NAME_SIZE: num(),
     });
 };

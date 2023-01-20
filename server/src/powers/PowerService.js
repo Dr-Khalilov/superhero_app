@@ -11,8 +11,8 @@ class PowerService {
         this.#powerRepository = Superpower;
     }
 
-    async createHeroPowers(heroId, powersData = []) {
-        const powers = powersData.map(description => ({
+    async createHeroPowers(heroId, superpowers = []) {
+        const powers = superpowers.map(description => ({
             heroId,
             description,
         }));

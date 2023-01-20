@@ -30,8 +30,8 @@ class HeroController {
     #initializeRoutes() {
         this.router.post(
             this.#path,
-            validate(CreateHeroDtoSchema),
             uploadImages,
+            validate(CreateHeroDtoSchema),
             this.#createOne,
         );
         this.router.get(this.#path, paginate, this.#getMany);
@@ -40,13 +40,19 @@ class HeroController {
             .get(parseIntPipe('id'), this.#getOne)
             .patch(
                 parseIntPipe('id'),
-                validate(UpdateHeroDtoSchema),
                 uploadImages,
+                validate(UpdateHeroDtoSchema),
                 this.#updateOne,
             )
             .delete(parseIntPipe('id'), this.#deleteOne);
-        this.router.use('/:heroId/powers/', this.#powerController.router);
-        this.router.use('/:heroId/images/', this.#imageController.router);
+        this.router.use(
+            `${this.#path}/:heroId/powers`,
+            this.#powerController.router,
+        );
+        this.router.use(
+            `${this.#path}/:heroId/images`,
+            this.#imageController.router,
+        );
     }
 
     get router() {
@@ -71,9 +77,9 @@ class HeroController {
         return new SuccessResponse({ data: foundHero });
     });
 
-    #updateOne = asyncWrapper(async ({ params: { id }, body: hero, files }) => {
+    #updateOne = asyncWrapper(async ({ params: { id }, body, files }) => {
         const heroWithData = await this.#heroService.updateHeroById(id, {
-            hero,
+            body,
             files,
         });
         return new SuccessResponse({ data: heroWithData }, HttpStatus.ACCEPTED);

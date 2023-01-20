@@ -7,7 +7,7 @@ const {
     ConflictException,
 } = require('../common/exceptions');
 const { SequelizeErrors } = require('../app/constants/appConstants');
-const { paginateResponse } = require('../common/utils/helpers');
+const { paginateResponse, removeFile } = require('../common/utils/helpers');
 
 class HeroService {
     #heroRepository;
@@ -110,18 +110,18 @@ class HeroService {
     }
 
     async updateHeroById(id, data = {}) {
-        const { hero, files } = data;
-        const [count, [updatedHero]] = await this.#heroRepository.update(hero, {
+        const { body, files } = data;
+        const [count, [updatedHero]] = await this.#heroRepository.update(body, {
             where: { id },
             returning: true,
         });
         if (files?.length) {
             await this.#imageService.createHeroImages(updatedHero.id, files);
         }
-        if (hero.superpowers?.length) {
+        if (body.superpowers?.length) {
             await this.#powerService.createHeroPowers(
                 updatedHero.id,
-                hero.superpowers,
+                body.superpowers,
             );
         }
         if (count === 0) {
@@ -147,6 +147,12 @@ class HeroService {
     }
 
     async deleteHeroById(id) {
+        const images = await this.#imageService.getImagesByHeroId(id);
+        for await (const { path } of images) {
+            const arrPaths = path.split('/');
+            const normalizePath = `${__dirname}/../../public/${arrPaths[3]}/${arrPaths[4]}`;
+            await removeFile(normalizePath);
+        }
         const count = await this.#heroRepository.destroy({ where: { id } });
         if (count === 0) {
             throw new SuperheroNotFoundException(id);

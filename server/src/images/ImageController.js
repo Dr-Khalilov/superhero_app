@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { ImageService } = require('./ImageService');
-const { HttpStatus } = require('../common/utils/httpStatus');
 const { SuccessResponse } = require('../common/utils/SuccessResponse');
+const { HttpStatus } = require('../common/utils/httpStatus');
 const { uploadImages } = require('../common/middlewares/uploadImages');
 const { asyncWrapper } = require('../common/utils/helpers');
 const { parseIntPipe } = require('../common/middlewares/parseIntPipe');
@@ -23,8 +23,8 @@ class ImageController {
     #initializeRoutes() {
         this.router
             .route('/')
-            .post(parseIntPipe('imageId'), uploadImages, this.#createImages)
-            .get(parseIntPipe('imageId'), this.#getHeroImages);
+            .post(parseIntPipe('heroId'), uploadImages, this.#createImages)
+            .get(parseIntPipe('heroId'), this.#getHeroImages);
 
         this.router
             .route('/:imageId')

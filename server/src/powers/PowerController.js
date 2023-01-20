@@ -1,9 +1,11 @@
 const { Router } = require('express');
 const { PowerService } = require('./PowerService');
-const { HttpStatus } = require('../common/utils/httpStatus');
 const { SuccessResponse } = require('../common/utils/SuccessResponse');
+const { PowersDtoSchema } = require('./PowersDTO');
+const { HttpStatus } = require('../common/utils/httpStatus');
 const { asyncWrapper } = require('../common/utils/helpers');
 const { parseIntPipe } = require('../common/middlewares/parseIntPipe');
+const { validate } = require('../common/middlewares/validate');
 
 class PowerController {
     #powerService;
@@ -22,9 +24,17 @@ class PowerController {
     #initializeRoutes() {
         this.router
             .route('/')
-            .post(parseIntPipe('heroId'), this.#createPowers)
+            .post(
+                parseIntPipe('heroId'),
+                validate(PowersDtoSchema),
+                this.#createPowers,
+            )
             .get(parseIntPipe('heroId'), this.#getPowers);
-        this.router.delete('/:powerId', this.#deletePower);
+        this.router.delete(
+            '/:powerId',
+            parseIntPipe('heroId', 'powerId'),
+            this.#deletePower,
+        );
     }
 
     #createPowers = asyncWrapper(
@@ -46,7 +56,7 @@ class PowerController {
     });
 
     #deletePower = asyncWrapper(async ({ params: { heroId, powerId } }) => {
-        await this.#powerService.deletePowerByIds(+heroId, +powerId);
+        await this.#powerService.deletePowerByIds(heroId, powerId);
         return new SuccessResponse(null, HttpStatus.NO_CONTENT);
     });
 }
