@@ -5,9 +5,9 @@ started_at=$(date +"%s")
 web=$(docker compose --file ./docker-compose.yaml ps | grep dev-server | awk '{print $1}')
 
 # Down Sequelize's migrations.
-echo "-----> Downing application migrations"
+echo "-----> Downing application migrations!"
 docker exec -it "$web" sequelize db:migrate:undo:all
-echo "Migrations downed"
+echo "<----- Migrations downed!"
 
 ended_at=$(date +"%s")
 

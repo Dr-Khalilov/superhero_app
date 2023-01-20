@@ -3,8 +3,14 @@ const { HeroService } = require('./HeroService');
 const { PowerController } = require('../powers/PowerController');
 const { ImageController } = require('../images/ImageController');
 const { HttpStatus } = require('../common/utils/httpStatus');
+const { SuccessResponse } = require('../common/utils/SuccessResponse');
+const { uploadImages } = require('../common/middlewares/uploadImages');
 const { paginate } = require('../common/middlewares/paginate');
-const { uploadImages } = require('../common/middlewares/fileUpload');
+const { validate } = require('../common/middlewares/validate');
+const { asyncWrapper } = require('../common/utils/helpers');
+const { parseIntPipe } = require('../common/middlewares/parseIntPipe');
+const { CreateHeroDtoSchema } = require('./dto/createHeroDTO');
+const { UpdateHeroDtoSchema } = require('./dto/updateHeroDTO');
 
 class HeroController {
     #heroService;
@@ -22,71 +28,67 @@ class HeroController {
     }
 
     #initializeRoutes() {
-        this.router.post(this.#path, uploadImages, this.#createOne);
+        this.router.post(
+            this.#path,
+            uploadImages,
+            validate(CreateHeroDtoSchema),
+            this.#createOne,
+        );
         this.router.get(this.#path, paginate, this.#getMany);
         this.router
             .route(`${this.#path}/:id`)
-            .get(this.#getOne)
-            .patch(uploadImages, this.#updateOne)
-            .delete(this.#deleteOne);
-        this.router.use('/:heroId/powers/', this.#powerController.router);
-        this.router.use('/:heroId/images/', this.#imageController.router);
+            .get(parseIntPipe('id'), this.#getOne)
+            .patch(
+                parseIntPipe('id'),
+                uploadImages,
+                validate(UpdateHeroDtoSchema),
+                this.#updateOne,
+            )
+            .delete(parseIntPipe('id'), this.#deleteOne);
+        this.router.use(
+            `${this.#path}/:heroId/powers`,
+            this.#powerController.router,
+        );
+        this.router.use(
+            `${this.#path}/:heroId/images`,
+            this.#imageController.router,
+        );
     }
 
     get router() {
         return this.#router;
     }
 
-    #createOne = async ({ body: hero, files }, res, next) => {
-        try {
-            const heroWithData = await this.#heroService.createHero({
-                hero,
-                files,
-            });
-            return res.status(HttpStatus.CREATED).send({ data: heroWithData });
-        } catch (error) {
-            next(error);
-        }
-    };
+    #createOne = asyncWrapper(async ({ body: hero, files }) => {
+        const heroWithData = await this.#heroService.createHero({
+            hero,
+            files,
+        });
+        return new SuccessResponse({ data: heroWithData }, HttpStatus.CREATED);
+    });
 
-    #getMany = async ({ pagination }, res, next) => {
-        try {
-            const heroes = await this.#heroService.getAllHeroes(pagination);
-            return res.status(HttpStatus.OK).send(heroes);
-        } catch (error) {
-            next(error);
-        }
-    };
+    #getMany = asyncWrapper(async ({ pagination }) => {
+        const heroes = await this.#heroService.getAllHeroes(pagination);
+        return new SuccessResponse(heroes);
+    });
 
-    #getOne = async ({ params: { id } }, res, next) => {
-        try {
-            const foundHero = await this.#heroService.getHeroById(id);
-            return res.status(HttpStatus.OK).send({ data: foundHero });
-        } catch (error) {
-            next(error);
-        }
-    };
+    #getOne = asyncWrapper(async ({ params: { id } }) => {
+        const foundHero = await this.#heroService.getHeroById(id);
+        return new SuccessResponse({ data: foundHero });
+    });
 
-    #updateOne = async ({ params: { id }, body: hero, files }, res, next) => {
-        try {
-            const heroWithData = await this.#heroService.updateHeroById(id, {
-                hero,
-                files,
-            });
-            return res.status(HttpStatus.ACCEPTED).send({ data: heroWithData });
-        } catch (error) {
-            next(error);
-        }
-    };
+    #updateOne = asyncWrapper(async ({ params: { id }, body, files }) => {
+        const heroWithData = await this.#heroService.updateHeroById(id, {
+            body,
+            files,
+        });
+        return new SuccessResponse({ data: heroWithData }, HttpStatus.ACCEPTED);
+    });
 
-    #deleteOne = async ({ params: { id } }, res, next) => {
-        try {
-            await this.#heroService.deleteHeroById(id);
-            return res.status(HttpStatus.NO_CONTENT).end();
-        } catch (error) {
-            next(error);
-        }
-    };
+    #deleteOne = asyncWrapper(async ({ params: { id } }) => {
+        await this.#heroService.deleteHeroById(id);
+        return new SuccessResponse(null, HttpStatus.NO_CONTENT);
+    });
 }
 
 module.exports = { HeroController };

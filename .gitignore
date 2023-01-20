@@ -4,6 +4,7 @@
 
 # Dev dependencies
 **/node_modules/
+**/public
 **/sequelize*.json
 /.git
 

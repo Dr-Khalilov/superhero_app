@@ -1,48 +1,69 @@
 const { Superhero, Superpower, Image } = require('../app/db/models');
+const { PowerService } = require('../powers/PowerService');
+const { ImageService } = require('../images/ImageService');
 const {
-    BadRequestException,
     SuperheroNotFoundException,
     SuperheroesNotFoundException,
+    ConflictException,
 } = require('../common/exceptions');
-const { paginateResponse } = require('../common/utils/helpers');
+const { SequelizeErrors } = require('../app/constants/appConstants');
+const { paginateResponse, removeFile } = require('../common/utils/helpers');
 
 class HeroService {
     #heroRepository;
-    #powerRepository;
-    #imageRepository;
+    #powerService;
+    #imageService;
 
     constructor() {
         this.#heroRepository = Superhero;
-        this.#powerRepository = Superpower;
-        this.#imageRepository = Image;
+        this.#powerService = new PowerService();
+        this.#imageService = new ImageService();
     }
 
-    async createHero(data = {}) {
-        const { hero, files } = data;
-        const createdHero = await this.#heroRepository.create(hero);
-        if (!createdHero) {
-            throw new BadRequestException(
-                `Superhero with that ${hero.nickName} already exist`,
-            );
+    async createHero({ hero, files }) {
+        try {
+            const createdHero = await this.#heroRepository.create(hero);
+
+            if (hero.superpowers?.length) {
+                await this.#powerService.createHeroPowers(
+                    createdHero.id,
+                    hero.superpowers,
+                );
+            }
+            if (files?.length) {
+                await this.#imageService.createHeroImages(
+                    createdHero.id,
+                    files,
+                );
+            }
+            return this.#heroRepository.findAll({
+                where: {
+                    id: createdHero.id,
+                },
+                include: [
+                    {
+                        model: Superpower,
+                        attributes: ['id', 'description'],
+                        as: 'superpowers',
+                    },
+                    {
+                        model: Image,
+                        attributes: ['id', 'path'],
+                        as: 'images',
+                    },
+                ],
+            });
+        } catch (err) {
+            if (err.name === SequelizeErrors.SequelizeUniqueConstraintError) {
+                throw new ConflictException(
+                    `Superhero with that nickName: ${hero.nickName} or that realName: ${hero.realName} already exist`,
+                );
+            }
         }
-        if (files?.length) {
-            const images = files.map(file => ({
-                path: file.filename,
-                heroId: createdHero.id,
-            }));
-            await this.#imageRepository.bulkCreate(images);
-        }
-        if (hero?.superpowers?.length) {
-            const powers = hero.superpowers.map(power => ({
-                description: power,
-                heroId: createdHero.id,
-            }));
-            await this.#powerRepository.bulkCreate(powers);
-        }
-        return this.#heroRepository.findAll({
-            where: {
-                id: createdHero.id,
-            },
+    }
+
+    async getAllHeroes({ limit, offset, page, sort }) {
+        const { rows, count } = await this.#heroRepository.findAndCountAll({
             include: [
                 {
                     model: Superpower,
@@ -55,28 +76,13 @@ class HeroService {
                     as: 'images',
                 },
             ],
-        });
-    }
-
-    async getAllHeroes({ limit, offset, page }) {
-        const { count, rows } = await this.#heroRepository.findAndCountAll({
-            include: [
-                {
-                    model: Superpower,
-                    attributes: ['id', 'description'],
-                    as: 'superpowers',
-                },
-                {
-                    model: Image,
-                    attributes: ['id', 'path'],
-                    as: 'images',
-                },
-            ],
-            order: [['updated_at', 'DESC']],
+            order: [['nickName', sort]],
             limit,
             offset,
+            distinct: true,
         });
-        if (count <= 0) {
+
+        if (count === 0) {
             throw new SuperheroesNotFoundException();
         }
         return paginateResponse([count, rows], page, limit);
@@ -104,24 +110,19 @@ class HeroService {
     }
 
     async updateHeroById(id, data = {}) {
-        const { hero, files } = data;
-        const [count, [updatedHero]] = await this.#heroRepository.update(hero, {
+        const { body, files } = data;
+        const [count, [updatedHero]] = await this.#heroRepository.update(body, {
             where: { id },
             returning: true,
         });
         if (files?.length) {
-            const images = files.map(file => ({
-                path: file.filename,
-                heroId: updatedHero.id,
-            }));
-            await this.#imageRepository.bulkCreate(images);
+            await this.#imageService.createHeroImages(updatedHero.id, files);
         }
-        if (hero?.superpowers?.length) {
-            const powers = hero.superpowers.map(power => ({
-                description: power,
-                heroId: updatedHero.id,
-            }));
-            await this.#powerRepository.bulkCreate(powers);
+        if (body.superpowers?.length) {
+            await this.#powerService.createHeroPowers(
+                updatedHero.id,
+                body.superpowers,
+            );
         }
         if (count === 0) {
             throw new SuperheroNotFoundException(id);
@@ -146,6 +147,12 @@ class HeroService {
     }
 
     async deleteHeroById(id) {
+        const images = await this.#imageService.getImagesByHeroId(id);
+        for await (const { path } of images) {
+            const arrPaths = path.split('/');
+            const normalizePath = `${__dirname}/../../public/${arrPaths[3]}/${arrPaths[4]}`;
+            await removeFile(normalizePath);
+        }
         const count = await this.#heroRepository.destroy({ where: { id } });
         if (count === 0) {
             throw new SuperheroNotFoundException(id);

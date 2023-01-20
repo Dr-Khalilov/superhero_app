@@ -7,11 +7,11 @@
   "type": "commonjs",
   "scripts": {
     "start": "npm run build && node build/main.js",
-    "start:dev": "nodemon /src/main.js",
+    "start:dev": "nodemon --inspect ./src/main.js",
     "lint": "eslint . --ext .js",
     "lint-and-fix": "eslint . --ext .js --fix",
-    "prettier:format": "prettier --write \"src/**/*.js\" \"test/**/*.js\"",
-    "prettier:check": "prettier --check \"src/**/*.js\" \"test/**/*.js\""
+    "pretty:format": "prettier --write \"src/**/*.js\"",
+    "pretty:check": "prettier --check \"src/**/*.js\""
   },
   "keywords": [
     "node",
@@ -29,7 +29,8 @@
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.28.0",
-    "swagger-ui-express": "^4.6.0"
+    "swagger-ui-express": "^4.6.0",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "eslint": "^8.31.0",

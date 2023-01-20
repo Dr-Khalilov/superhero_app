@@ -10,24 +10,40 @@ void createPublicFolder(pathToImages);
 
 const multerOptions = {
     limits: {
+        files: configuration.maxFilesAmount,
         fileSize: configuration.maxFileSize,
         fieldNameSize: configuration.fieldNameSize,
     },
     fileFilter: (req, file, cb) => {
-        const mimeTypes = [
+        const currentFileSize = parseInt(req.headers['content-length']);
+        const arrayOfAllowedFiles = ['png', 'jpeg', 'jpg', 'gif'];
+        const arrOfMimeTypes = [
             'image/png',
-            'image/svg',
             'image/jpeg',
             'image/jpg',
             'image/gif',
         ];
-        if (mimeTypes.includes(file.mimetype)) {
-            cb(null, true);
-        } else {
+        const fileExtension = file.originalname.slice(
+            ((file.originalname.lastIndexOf('.') - 1) >>> 0) + 2,
+        );
+        if (
+            !arrayOfAllowedFiles.includes(fileExtension) ||
+            !arrOfMimeTypes.includes(file.mimetype)
+        ) {
             cb(
                 new BadRequestException(
-                    `Unsupported file type ${extname(file.originalname)}`,
+                    `Unsupported file type ${extname(
+                        file.originalname,
+                    )}. Only .png, .jpg, jpeg, .gif extensions allowed!`,
                 ),
+                false,
+            );
+        } else {
+            cb(null, true);
+        }
+        if (currentFileSize > configuration.maxFileSize) {
+            cb(
+                new BadRequestException('File size can`t be more than 10 mb'),
                 false,
             );
         }
@@ -39,10 +55,10 @@ const multerOptions = {
         filename: async (req, file, cb) => {
             const filename = `${parse(file.originalname).name}_${Date.now()}`;
             const extension = parse(file.originalname).ext;
-            cb(null, `${filename}.${extension}`);
+            cb(null, `${filename}${extension}`);
         },
     }),
 };
-const uploadImages = multer(multerOptions).array('images', 10);
+const uploadImages = multer(multerOptions).array('images');
 
 module.exports = { uploadImages };

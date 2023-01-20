@@ -17,6 +17,7 @@ module.exports = {
             realName: {
                 field: 'real_name',
                 allowNull: false,
+                unique: true,
                 type: Sequelize.STRING,
             },
             originDescription: {
@@ -27,7 +28,7 @@ module.exports = {
             catchPhrase: {
                 field: 'catch_phrase',
                 allowNull: false,
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(500),
             },
             createdAt: {
                 field: 'created_at',

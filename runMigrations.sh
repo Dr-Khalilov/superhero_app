@@ -7,9 +7,9 @@ docker compose ps
 web=$(docker compose --file ./docker-compose.yaml ps | grep dev-server | awk '{print $1}')
 
 # Run Sequelize's migrations.
-echo "-----> Running application migrations"
+echo "-----> Running application migrations!"
 docker exec -it "$web" sequelize db:migrate
-echo "<----- Migrations created"
+echo "<----- Migrations created!"
 
 ended_at=$(date +"%s")
 
