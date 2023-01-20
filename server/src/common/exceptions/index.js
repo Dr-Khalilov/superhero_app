@@ -8,6 +8,9 @@ const {
 const {
     SuperpowerNotFoundException,
 } = require('./SuperpowerNotFoundException');
+const {
+    SuperpowersNotFoundException,
+} = require('./SuperpowersNotFoundException');
 const { ImageNotFoundException } = require('./ImageNotFoundException');
 const { ImagesNotFoundException } = require('./ImagesNotFoundException');
 const { ConflictException } = require('./ConflictException');
@@ -19,6 +22,7 @@ module.exports = {
     SuperheroNotFoundException,
     SuperheroesNotFoundException,
     SuperpowerNotFoundException,
+    SuperpowersNotFoundException,
     ImageNotFoundException,
     ImagesNotFoundException,
     ConflictException,

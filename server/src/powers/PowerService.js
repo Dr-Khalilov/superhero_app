@@ -2,6 +2,7 @@ const { Superpower } = require('../app/db/models');
 const {
     SuperpowerNotFoundException,
     SuperheroNotFoundException,
+    SuperpowersNotFoundException,
 } = require('../common/exceptions');
 
 class PowerService {
@@ -11,7 +12,7 @@ class PowerService {
         this.#powerRepository = Superpower;
     }
 
-    async createHeroPowers(heroId, superpowers = []) {
+    async createHeroPowers(heroId, superpowers = ['']) {
         const powers = superpowers.map(description => ({
             heroId,
             description,
@@ -27,8 +28,8 @@ class PowerService {
         const powers = await this.#powerRepository.findAll({
             where: { heroId },
         });
-        if (!powers) {
-            throw new SuperpowerNotFoundException(heroId);
+        if (!powers.length) {
+            throw new SuperpowersNotFoundException(heroId);
         }
         return powers;
     }
