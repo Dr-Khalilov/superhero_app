@@ -18,7 +18,7 @@ const deleteHero = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Numeric Id of the user to delete',
+                description: 'Integer Id of the user to delete',
             },
         ],
         responses: {

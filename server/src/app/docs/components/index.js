@@ -1,5 +1,6 @@
 'use strict';
 const { heroesComponent } = require('./heroesComponent');
+const { powersComponent } = require('./powersComponent');
 const { queryParamsComponent } = require('./queryParamsComponent');
 const { errorsComponent } = require('./errorsComponent');
 
@@ -8,6 +9,7 @@ const components = {
         schemas: {
             ...queryParamsComponent,
             ...heroesComponent,
+            ...powersComponent,
             ...errorsComponent,
         },
     },

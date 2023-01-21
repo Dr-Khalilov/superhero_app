@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { PowerService } = require('./PowerService');
 const { SuccessResponse } = require('../common/utils/SuccessResponse');
-const { PowersDtoSchema } = require('./PowersDTO');
+const { PowersDtoSchema } = require('./PowersDto');
 const { HttpStatus } = require('../common/utils/httpStatus');
 const { asyncWrapper } = require('../common/utils/helpers');
 const { parseIntPipe } = require('../common/middlewares/parseIntPipe');

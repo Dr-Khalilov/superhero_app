@@ -6,7 +6,6 @@ Content-Type: application/json
   "realName": "Kent",
   "originDescription": "lorem",
   "catchPhrase": "lorem",
-  "images": [],
   "superpowers": [
     "some power"
   ]

@@ -2,15 +2,15 @@
 const { HttpStatus } = require('../../../common/utils/httpStatus');
 const { ListTags } = require('../listTags');
 
-const getHero = {
+const getPowers = {
     get: {
-        tags: [ListTags.Superheroes],
-        summary: 'Get a superhero',
-        description: 'Get a superhero by id',
-        operationId: 'getHero',
+        tags: [ListTags.Superpowers],
+        summary: 'Get powers',
+        description: 'Get the list of superpowers',
+        operationId: 'getSuperpowers',
         parameters: [
             {
-                name: 'id',
+                name: 'heroId',
                 in: 'path',
                 example: 1,
                 schema: {
@@ -18,26 +18,26 @@ const getHero = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Integer Id of the user to get',
+                description: 'Integer Id of the superpowers to get',
             },
         ],
         responses: {
             [HttpStatus.OK]: {
-                description: 'A superhero data',
+                description: 'List all superpowers',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/GetHero',
+                            $ref: '#/components/schemas/GetPowers',
                         },
                     },
                 },
             },
             [HttpStatus.NOT_FOUND]: {
-                description: 'A superhero not found exception',
+                description: 'No superpowers found exception',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/SuperheroNotFoundException',
+                            $ref: '#/components/schemas/SuperpowersNotFoundException',
                         },
                     },
                 },
@@ -46,4 +46,4 @@ const getHero = {
     },
 };
 
-module.exports = { getHero };
+module.exports = { getPowers };

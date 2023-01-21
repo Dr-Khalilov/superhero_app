@@ -13,7 +13,7 @@ const createHero = {
             content: {
                 'application/json': {
                     schema: {
-                        allOf: [
+                        oneOf: [
                             {
                                 $ref: '#/components/schemas/CreateHeroWithoutPowers',
                             },
