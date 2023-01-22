@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const { PowerService } = require('./PowerService');
 const { SuccessResponse } = require('../common/utils/SuccessResponse');
-const { PowersDtoSchema } = require('./PowersDTO');
+const { PowersDtoSchema } = require('./PowersDto');
 const { HttpStatus } = require('../common/utils/httpStatus');
 const { asyncWrapper } = require('../common/utils/helpers');
 const { parseIntPipe } = require('../common/middlewares/parseIntPipe');
 const { validate } = require('../common/middlewares/validate');
+const { checkHero } = require('../common/middlewares/checkHero');
 
 class PowerController {
     #powerService;
@@ -27,12 +28,14 @@ class PowerController {
             .post(
                 parseIntPipe('heroId'),
                 validate(PowersDtoSchema),
+                checkHero,
                 this.#createPowers,
             )
-            .get(parseIntPipe('heroId'), this.#getPowers);
+            .get(parseIntPipe('heroId'), checkHero, this.#getPowers);
         this.router.delete(
             '/:powerId',
             parseIntPipe('heroId', 'powerId'),
+            checkHero,
             this.#deletePower,
         );
     }

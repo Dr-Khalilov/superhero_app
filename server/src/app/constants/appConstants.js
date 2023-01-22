@@ -5,6 +5,7 @@ const NODE_ENV = {
 
 const SequelizeErrors = {
     SequelizeUniqueConstraintError: 'SequelizeUniqueConstraintError',
+    SequelizeForeignKeyConstraintError: 'SequelizeForeignKeyConstraintError',
 };
 
 module.exports = { NODE_ENV, SequelizeErrors };

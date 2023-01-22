@@ -26,13 +26,12 @@ const heroesComponent = {
             images,
         },
         encoding: {
-            image: {
+            images: {
                 contentType: [
                     'image/png',
                     'image/jpg',
                     'image/jpeg',
                     'image/gif',
-                    'image/svg',
                 ],
             },
         },
@@ -84,7 +83,6 @@ const heroesComponent = {
                     'image/jpg',
                     'image/jpeg',
                     'image/gif',
-                    'image/svg',
                 ],
             },
         },

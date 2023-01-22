@@ -52,7 +52,7 @@ const multerOptions = {
         destination: (req, file, cb) => {
             cb(null, pathToImages);
         },
-        filename: async (req, file, cb) => {
+        filename: (req, file, cb) => {
             const filename = `${parse(file.originalname).name}_${Date.now()}`;
             const extension = parse(file.originalname).ext;
             cb(null, `${filename}${extension}`);

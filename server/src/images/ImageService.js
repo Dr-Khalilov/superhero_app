@@ -2,7 +2,6 @@ const { Image } = require('../app/db/models');
 const { configuration } = require('../configs/configuration');
 const { removeFile } = require('../common/utils/helpers');
 const {
-    SuperheroNotFoundException,
     ImageNotFoundException,
     ImagesNotFoundException,
 } = require('../common/exceptions');
@@ -31,11 +30,7 @@ class ImageService {
             path: `${this.#pathImage}${file.filename}`,
             heroId,
         }));
-        const newImages = await this.#imageRepository.bulkCreate(images);
-        if (!newImages) {
-            throw new SuperheroNotFoundException(heroId);
-        }
-        return newImages;
+        return this.#imageRepository.bulkCreate(images);
     }
 
     async getImagesByHeroId(heroId) {

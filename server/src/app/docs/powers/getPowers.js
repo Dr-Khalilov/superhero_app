@@ -2,15 +2,15 @@
 const { HttpStatus } = require('../../../common/utils/httpStatus');
 const { ListTags } = require('../listTags');
 
-const deleteHero = {
-    delete: {
-        tags: [ListTags.Superheroes],
-        summary: 'Delete a superhero',
-        description: 'Delete a superhero by id',
-        operationId: 'deleteHero',
+const getPowers = {
+    get: {
+        tags: [ListTags.Superpowers],
+        summary: 'Get powers',
+        description: 'Get the list of superpowers',
+        operationId: 'getSuperpowers',
         parameters: [
             {
-                name: 'id',
+                name: 'heroId',
                 in: 'path',
                 example: 1,
                 schema: {
@@ -18,16 +18,23 @@ const deleteHero = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Integer Id of the user to delete',
+                description:
+                    'Integer HeroId of the superhero to get of superpowers',
             },
         ],
         responses: {
-            [HttpStatus.NO_CONTENT]: {
-                description: 'A no content',
-                content: null,
+            [HttpStatus.OK]: {
+                description: 'List all superpowers',
+                content: {
+                    'application/json': {
+                        schema: {
+                            $ref: '#/components/schemas/GetPowers',
+                        },
+                    },
+                },
             },
             [HttpStatus.NOT_FOUND]: {
-                description: 'Superhero with that id not found',
+                description: 'A superhero not found exception',
                 content: {
                     'application/json': {
                         schema: {
@@ -40,4 +47,4 @@ const deleteHero = {
     },
 };
 
-module.exports = { deleteHero };
+module.exports = { getPowers };

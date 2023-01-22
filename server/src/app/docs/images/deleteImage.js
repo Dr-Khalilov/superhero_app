@@ -2,15 +2,15 @@
 const { HttpStatus } = require('../../../common/utils/httpStatus');
 const { ListTags } = require('../listTags');
 
-const deleteHero = {
+const deleteImage = {
     delete: {
-        tags: [ListTags.Superheroes],
-        summary: 'Delete a superhero',
-        description: 'Delete a superhero by id',
-        operationId: 'deleteHero',
+        tags: [ListTags.Images],
+        summary: 'Delete an image',
+        description: 'Delete an image by heroId and imageId',
+        operationId: 'deleteImage',
         parameters: [
             {
-                name: 'id',
+                name: 'heroId',
                 in: 'path',
                 example: 1,
                 schema: {
@@ -18,7 +18,18 @@ const deleteHero = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Integer Id of the user to delete',
+                description: 'Integer HeroId to delete an image',
+            },
+            {
+                name: 'imageId',
+                in: 'path',
+                example: 1,
+                schema: {
+                    type: 'integer',
+                    format: 'int64',
+                },
+                required: true,
+                description: 'Integer ImageId of the image to delete',
             },
         ],
         responses: {
@@ -27,11 +38,11 @@ const deleteHero = {
                 content: null,
             },
             [HttpStatus.NOT_FOUND]: {
-                description: 'Superhero with that id not found',
+                description: 'Image with that imageId not found',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/SuperheroNotFoundException',
+                            $ref: '#/components/schemas/ImageNotFoundException',
                         },
                     },
                 },
@@ -40,4 +51,4 @@ const deleteHero = {
     },
 };
 
-module.exports = { deleteHero };
+module.exports = { deleteImage };

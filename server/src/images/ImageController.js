@@ -5,6 +5,7 @@ const { HttpStatus } = require('../common/utils/httpStatus');
 const { uploadImages } = require('../common/middlewares/uploadImages');
 const { asyncWrapper } = require('../common/utils/helpers');
 const { parseIntPipe } = require('../common/middlewares/parseIntPipe');
+const { checkHero } = require('../common/middlewares/checkHero');
 
 class ImageController {
     #imageService;
@@ -23,13 +24,18 @@ class ImageController {
     #initializeRoutes() {
         this.router
             .route('/')
-            .post(parseIntPipe('heroId'), uploadImages, this.#createImages)
-            .get(parseIntPipe('heroId'), this.#getHeroImages);
+            .post(
+                parseIntPipe('heroId'),
+                uploadImages,
+                checkHero,
+                this.#createImages,
+            )
+            .get(parseIntPipe('heroId'), checkHero, this.#getHeroImages);
 
         this.router
             .route('/:imageId')
-            .get(parseIntPipe('imageId'), this.#getImage)
-            .delete(parseIntPipe('imageId'), this.#deleteImage);
+            .get(parseIntPipe('imageId'), checkHero, this.#getImage)
+            .delete(parseIntPipe('imageId'), checkHero, this.#deleteImage);
     }
 
     #createImages = asyncWrapper(async ({ params: { heroId }, files }) => {

@@ -9,8 +9,8 @@ const { paginate } = require('../common/middlewares/paginate');
 const { validate } = require('../common/middlewares/validate');
 const { asyncWrapper } = require('../common/utils/helpers');
 const { parseIntPipe } = require('../common/middlewares/parseIntPipe');
-const { CreateHeroDtoSchema } = require('./dto/createHeroDTO');
-const { UpdateHeroDtoSchema } = require('./dto/updateHeroDTO');
+const { CreateHeroDtoSchema } = require('./dto/createHeroDto');
+const { UpdateHeroDtoSchema } = require('./dto/updateHeroDto');
 
 class HeroController {
     #heroService;

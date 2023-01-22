@@ -2,15 +2,15 @@
 const { HttpStatus } = require('../../../common/utils/httpStatus');
 const { ListTags } = require('../listTags');
 
-const getHero = {
+const getImage = {
     get: {
-        tags: [ListTags.Superheroes],
-        summary: 'Get a superhero',
-        description: 'Get a superhero by id',
-        operationId: 'getHero',
+        tags: [ListTags.Images],
+        summary: 'Get an image',
+        description: 'Get an image of the superhero',
+        operationId: 'getImage',
         parameters: [
             {
-                name: 'id',
+                name: 'heroId',
                 in: 'path',
                 example: 1,
                 schema: {
@@ -18,16 +18,27 @@ const getHero = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Integer Id of the user to get',
+                description: 'Integer HeroId of the superhero',
+            },
+            {
+                name: 'imageId',
+                in: 'path',
+                example: 1,
+                schema: {
+                    type: 'integer',
+                    format: 'int64',
+                },
+                required: true,
+                description: 'Integer ImageId to get image',
             },
         ],
         responses: {
             [HttpStatus.OK]: {
-                description: 'A superhero data',
+                description: 'Image of the superhero',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/GetHero',
+                            $ref: '#/components/schemas/GetImages',
                         },
                     },
                 },
@@ -46,4 +57,4 @@ const getHero = {
     },
 };
 
-module.exports = { getHero };
+module.exports = { getImage };
