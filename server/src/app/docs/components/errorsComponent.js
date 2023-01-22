@@ -82,26 +82,6 @@ const errorsComponent = {
             },
         },
     },
-    SuperpowersNotFoundException: {
-        type: 'object',
-        properties: {
-            name: {
-                type: 'string',
-                description: 'Error name',
-                example: 'SuperpowersNotFoundException',
-            },
-            message: {
-                type: 'string',
-                description: 'Error message',
-                example: 'No superpowers found for superhero with that id: 1',
-            },
-            status: {
-                type: 'integer',
-                description: 'Error status code',
-                example: HttpStatus.NOT_FOUND,
-            },
-        },
-    },
     ImageNotFoundException: {
         type: 'object',
         properties: {

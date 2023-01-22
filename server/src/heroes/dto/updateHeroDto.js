@@ -1,5 +1,5 @@
 'use strict';
-const { CreateHeroDtoSchema } = require('./createHeroDTO');
+const { CreateHeroDtoSchema } = require('./createHeroDto');
 
 const UpdateHeroDtoSchema = CreateHeroDtoSchema.partial();
 

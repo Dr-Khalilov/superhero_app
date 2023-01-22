@@ -5,6 +5,7 @@ const { deleteHero } = require('./deleteHero');
 const { createHero } = require('./createHero');
 const { updateHero } = require('./updateHero');
 const { powers } = require('../powers');
+const { images } = require('../images');
 
 const heroes = {
     paths: {
@@ -18,6 +19,7 @@ const heroes = {
             ...deleteHero,
         },
         ...powers,
+        ...images,
     },
 };
 

@@ -1,13 +1,13 @@
 'use strict';
-const { ListTags } = require('../listTags');
 const { HttpStatus } = require('../../../common/utils/httpStatus');
+const { ListTags } = require('../listTags');
 
-const createPowers = {
+const createImages = {
     post: {
-        tags: [ListTags.Superpowers],
-        summary: 'Create powers',
-        description: 'Create powers for superhero',
-        operationId: 'createPowers',
+        tags: [ListTags.Images],
+        summary: 'Create images',
+        description: 'Create images for a superhero',
+        operationId: 'createImages',
         parameters: [
             {
                 name: 'heroId',
@@ -18,36 +18,36 @@ const createPowers = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Integer HeroId of the superhero to create powers',
+                description: 'Integer HeroId of the superhero to create images',
             },
         ],
         requestBody: {
             required: true,
             content: {
-                'application/json': {
+                'multipart/form-data': {
                     schema: {
-                        $ref: '#/components/schemas/CreatePowers',
+                        $ref: '#/components/schemas/CreateImages',
                     },
                 },
             },
         },
         responses: {
             [HttpStatus.CREATED]: {
-                description: 'Created superpowers',
+                description: 'A created images for superhero',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/GetPowers',
+                            $ref: '#/components/schemas/GetImages',
                         },
                     },
                 },
             },
             [HttpStatus.BAD_REQUEST]: {
-                description: 'Validation exception',
+                description: 'Image validation',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/ValidationException',
+                            $ref: '#/components/schemas/BadRequestException',
                         },
                     },
                 },
@@ -66,4 +66,4 @@ const createPowers = {
     },
 };
 
-module.exports = { createPowers };
+module.exports = { createImages };

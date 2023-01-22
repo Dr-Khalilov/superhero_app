@@ -1,7 +1,8 @@
 'use strict';
 const { heroComponent } = require('./heroComponent');
+const { powerComponent } = require('./powerComponent');
 
-const { id, superpowers, createdAt, updatedAt } = heroComponent;
+const { superpowers } = heroComponent;
 
 const powersComponent = {
     CreatePowers: {
@@ -18,10 +19,7 @@ const powersComponent = {
                 items: {
                     type: 'object',
                     properties: {
-                        id,
-                        superpowers,
-                        createdAt,
-                        updatedAt,
+                        ...powerComponent,
                     },
                 },
             },

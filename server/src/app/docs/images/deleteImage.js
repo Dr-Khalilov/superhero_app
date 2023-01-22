@@ -2,12 +2,12 @@
 const { HttpStatus } = require('../../../common/utils/httpStatus');
 const { ListTags } = require('../listTags');
 
-const deletePower = {
+const deleteImage = {
     delete: {
-        tags: [ListTags.Superpowers],
-        summary: 'Delete a power',
-        description: 'Delete a power by heroId and powerId',
-        operationId: 'deletePower',
+        tags: [ListTags.Images],
+        summary: 'Delete an image',
+        description: 'Delete an image by heroId and imageId',
+        operationId: 'deleteImage',
         parameters: [
             {
                 name: 'heroId',
@@ -18,10 +18,10 @@ const deletePower = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Integer HeroId to delete a power from superhero',
+                description: 'Integer HeroId to delete an image',
             },
             {
-                name: 'powerId',
+                name: 'imageId',
                 in: 'path',
                 example: 1,
                 schema: {
@@ -29,7 +29,7 @@ const deletePower = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Integer PowerId of the power to delete',
+                description: 'Integer ImageId of the image to delete',
             },
         ],
         responses: {
@@ -38,11 +38,11 @@ const deletePower = {
                 content: null,
             },
             [HttpStatus.NOT_FOUND]: {
-                description: 'Superpower with that powerId not found',
+                description: 'Image with that imageId not found',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/SuperpowerNotFoundException',
+                            $ref: '#/components/schemas/ImageNotFoundException',
                         },
                     },
                 },
@@ -51,4 +51,4 @@ const deletePower = {
     },
 };
 
-module.exports = { deletePower };
+module.exports = { deleteImage };

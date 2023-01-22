@@ -2,12 +2,12 @@
 const { HttpStatus } = require('../../../common/utils/httpStatus');
 const { ListTags } = require('../listTags');
 
-const getPowers = {
+const getImages = {
     get: {
-        tags: [ListTags.Superpowers],
-        summary: 'Get powers',
-        description: 'Get the list of superpowers',
-        operationId: 'getSuperpowers',
+        tags: [ListTags.Images],
+        summary: 'Get images',
+        description: 'Get images of the superhero',
+        operationId: 'getImages',
         parameters: [
             {
                 name: 'heroId',
@@ -18,17 +18,16 @@ const getPowers = {
                     format: 'int64',
                 },
                 required: true,
-                description:
-                    'Integer HeroId of the superhero to get of superpowers',
+                description: 'Integer HeroId of the superhero to get images',
             },
         ],
         responses: {
             [HttpStatus.OK]: {
-                description: 'List all superpowers',
+                description: 'List images of the superhero',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/GetPowers',
+                            $ref: '#/components/schemas/GetImages',
                         },
                     },
                 },
@@ -47,4 +46,4 @@ const getPowers = {
     },
 };
 
-module.exports = { getPowers };
+module.exports = { getImages };

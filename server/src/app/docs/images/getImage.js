@@ -2,12 +2,12 @@
 const { HttpStatus } = require('../../../common/utils/httpStatus');
 const { ListTags } = require('../listTags');
 
-const deletePower = {
-    delete: {
-        tags: [ListTags.Superpowers],
-        summary: 'Delete a power',
-        description: 'Delete a power by heroId and powerId',
-        operationId: 'deletePower',
+const getImage = {
+    get: {
+        tags: [ListTags.Images],
+        summary: 'Get an image',
+        description: 'Get an image of the superhero',
+        operationId: 'getImage',
         parameters: [
             {
                 name: 'heroId',
@@ -18,10 +18,10 @@ const deletePower = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Integer HeroId to delete a power from superhero',
+                description: 'Integer HeroId of the superhero',
             },
             {
-                name: 'powerId',
+                name: 'imageId',
                 in: 'path',
                 example: 1,
                 schema: {
@@ -29,20 +29,26 @@ const deletePower = {
                     format: 'int64',
                 },
                 required: true,
-                description: 'Integer PowerId of the power to delete',
+                description: 'Integer ImageId to get image',
             },
         ],
         responses: {
-            [HttpStatus.NO_CONTENT]: {
-                description: 'A no content',
-                content: null,
-            },
-            [HttpStatus.NOT_FOUND]: {
-                description: 'Superpower with that powerId not found',
+            [HttpStatus.OK]: {
+                description: 'Image of the superhero',
                 content: {
                     'application/json': {
                         schema: {
-                            $ref: '#/components/schemas/SuperpowerNotFoundException',
+                            $ref: '#/components/schemas/GetImages',
+                        },
+                    },
+                },
+            },
+            [HttpStatus.NOT_FOUND]: {
+                description: 'A superhero not found exception',
+                content: {
+                    'application/json': {
+                        schema: {
+                            $ref: '#/components/schemas/SuperheroNotFoundException',
                         },
                     },
                 },
@@ -51,4 +57,4 @@ const deletePower = {
     },
 };
 
-module.exports = { deletePower };
+module.exports = { getImage };

@@ -26,7 +26,7 @@ const heroesComponent = {
             images,
         },
         encoding: {
-            image: {
+            images: {
                 contentType: [
                     'image/png',
                     'image/jpg',
