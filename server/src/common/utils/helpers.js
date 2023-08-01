@@ -1,8 +1,6 @@
 'use strict';
 const { mkdir, unlink } = require('fs/promises');
-const { join } = require('path');
 const { Logger } = require('./Logger');
-const { configuration } = require('../../configs/configuration');
 
 const createPublicFolder = async path => {
     await mkdir(path, { recursive: true });
